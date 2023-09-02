@@ -33,8 +33,8 @@ typedef unsigned long      ulong;
 typedef long long          llong;
 typedef unsigned long long ullong;
 
-#define declare_cmp_func(type) int type##_cmp(const type* a, const type* b);
-#define define_cmp_func(type) int type##_cmp(const type* a, const type* b) { return *a - *b; }
+#define declare_number_cmp_func(type) int type##_cmp(const type* a, const type* b);
+#define define_number_cmp_func(type) int type##_cmp(const type* a, const type* b) { return *a - *b; }
 
 #define SORT( arr ) do { \
 cmp_func cmp; \
@@ -54,18 +54,18 @@ qsort(arr, n, sizeof(*arr), cmp); \
 } while(0)
 
 // compare functions to pass to qsort
-declare_cmp_func(char);
-declare_cmp_func(uchar);
-declare_cmp_func(short);
-declare_cmp_func(ushort);
-declare_cmp_func(int);
-declare_cmp_func(uint);
-declare_cmp_func(long);
-declare_cmp_func(ulong);
-declare_cmp_func(llong);
-declare_cmp_func(ullong);
-declare_cmp_func(float);
-declare_cmp_func(double);
+declare_number_cmp_func(char);
+declare_number_cmp_func(uchar);
+declare_number_cmp_func(short);
+declare_number_cmp_func(ushort);
+declare_number_cmp_func(int);
+declare_number_cmp_func(uint);
+declare_number_cmp_func(long);
+declare_number_cmp_func(ulong);
+declare_number_cmp_func(llong);
+declare_number_cmp_func(ullong);
+declare_number_cmp_func(float);
+declare_number_cmp_func(double);
 int str_cmp(const char** s1, const char** s2);
 
 #endif
