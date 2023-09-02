@@ -11,7 +11,7 @@
 // int cmp(const type*, const type*);
 
 #define SORT_TYPES \
-ADD_SORT_TYPE(uchar,              uchar_cmp), \
+ADD_SORT_TYPE(unsigned char,              uchar_cmp), \
 ADD_SORT_TYPE(unsigned short,     ushort_cmp), \
 ADD_SORT_TYPE(unsigned int,       uint_cmp), \
 ADD_SORT_TYPE(unsigned long,      ulong_cmp), \
@@ -21,7 +21,8 @@ ADD_SORT_TYPE(short,              short_cmp), \
 ADD_SORT_TYPE(int,                int_cmp), \
 ADD_SORT_TYPE(long,               long_cmp), \
 ADD_SORT_TYPE(long long,          llong_cmp), \
-ADD_SORT_TYPE(char*,              str_cmp)
+ADD_SORT_TYPE(char*,              str_cmp), \
+ADD_SORT_TYPE(MyType, my_type_cmp)
 
 typedef int (*cmp_func)(const void*, const void*);
 
