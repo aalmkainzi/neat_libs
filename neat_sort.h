@@ -1,5 +1,5 @@
-#ifndef EZ_SORT_H
-#define EZ_SORT_H
+#ifndef NEAT_SORT_H
+#define NEAT_SORT_H
 
 #include <stdlib.h>
 
