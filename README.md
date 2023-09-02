@@ -3,7 +3,8 @@
 Summary:
 This is a neat api for sorting in C. By default it has sorting for all the main numeric type in C, also strings. Additional types can be added by users of the library.
 
-# API:
+API:
+---
 To sort a local stack array:
 ```
 int main()
