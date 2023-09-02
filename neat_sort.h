@@ -25,7 +25,7 @@ ADD_SORT_TYPE(char*,              str_cmp)
 
 typedef int (*cmp_func)(const void*, const void*);
 
-// these typedefs are for multi word types, we can't have that
+// these typedefs are for multi word types, for easy cmp function creation
 typedef unsigned char      uchar;
 typedef unsigned short     ushort;
 typedef unsigned int       uint;
