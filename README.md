@@ -1,7 +1,6 @@
 # neat_sort
 
-Summary:
-This is a neat api for sorting in C. By default it has sorting for all the main numeric type in C, also strings. Additional types can be added by users of the library.
+A neat api for sorting in C. By default it has sorting for all the main numeric types, also strings. Additional types can be added by user of the library.
 
 API:
 ---
