@@ -22,7 +22,8 @@ void func(int n) {
 ```
 SORT_PTR can also be called on local arrays.
 
-# Extending with additional types:
+Extending with additional types:
+---
 Adding addtional types to sort is simple. Go to the ```SORT_TYPES``` macro defined in ```neat_sort.h``` and add a new entry for your type, for example:
 ```
 #define SORT_TYPES \
