@@ -5,6 +5,7 @@ A simple api for sorting in C. By default it has sorting for all the main numeri
 API:
 ---
 Before including the library, you must do ```#define NEAT_SORT_IMPLEMENTATION``` once in your project.
+
 To sort a local stack array:
 ```
 #define NEAT_SORT_IMPLEMENTATION
