@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ADD_SORT_TYPE(type, function) type*: cmp = (cmp_func) function
+#define ADD_SORT_TYPE(type, cmp_function) type*: cmp = (cmp_func) cmp_function
 
 #ifdef ADDITIONAL_SORT_TYPES
 
 #define SORT_TYPES \
-ADD_SORT_TYPE(unsigned char,              uchar_cmp), \
+ADD_SORT_TYPE(unsigned char,      uchar_cmp), \
 ADD_SORT_TYPE(unsigned short,     ushort_cmp), \
 ADD_SORT_TYPE(unsigned int,       uint_cmp), \
 ADD_SORT_TYPE(unsigned long,      ulong_cmp), \
