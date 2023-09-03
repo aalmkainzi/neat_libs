@@ -30,7 +30,9 @@ SORT_PTR can also be called on local arrays.
 Extending with additional types:
 ---
 Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define ADDITIONAL_SORT_TYPES``` and in it, you can put additional types like this:
+
 ```#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(my_type, my_type_cmp)```
+
 the function my_type_cmp must be in this format: int (const my_type*, const my_type*) Basically a qsort compare function.
 
 code example:
