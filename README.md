@@ -25,7 +25,7 @@ void func(int *arr, int n) {
   SORT_PTR(arr, n)
 }
 ```
-SORT_PTR can also be called on local arrays.
+```SORT_PTR``` can also be called on local arrays.
 
 Extending with additional types:
 ---
