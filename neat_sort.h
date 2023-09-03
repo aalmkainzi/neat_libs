@@ -6,11 +6,6 @@
 
 #define ADD_SORT_TYPE(type, function) type*: cmp = (cmp_func) function
 
-// Add your own types in the SORT_TYPES macro below. Use the following format:
-// ADD_SORT_TYPE(type, cmp_function)
-// cmp_function must be in this format (basically a qsort compare function):
-// int cmp(const type*, const type*);
-
 #ifdef ADDITIONAL_SORT_TYPES
 
 #define SORT_TYPES \
