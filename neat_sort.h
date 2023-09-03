@@ -39,14 +39,6 @@ ADD_SORT_TYPE(char*,              str_cmp) \
 
 #endif
 
-// these typedefs are for multi word types, for easy cmp function creation
-typedef unsigned char      uchar;
-typedef unsigned short     ushort;
-typedef unsigned int       uint;
-typedef unsigned long      ulong;
-typedef long long          llong;
-typedef unsigned long long ullong;
-
 typedef int (*cmp_func)(const void*, const void*);
 
 #define SORT( arr ) do { \
@@ -69,6 +61,14 @@ qsort(arr, n, sizeof(*arr), cmp); \
 
 #define declare_number_cmp_func(type) int type##_cmp(const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func { return (*a > *b) - (*b > *a); }
+
+// these typedefs are for multi word types, for easy cmp function creation
+typedef unsigned char      uchar;
+typedef unsigned short     ushort;
+typedef unsigned int       uint;
+typedef unsigned long      ulong;
+typedef long long          llong;
+typedef unsigned long long ullong;
 
 // compare functions to pass to qsort
 #ifdef NEAT_SORT_IMPLEMENTATION
