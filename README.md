@@ -29,10 +29,10 @@ void func(int *arr, int n) {
 
 Extending with additional types:
 ---
-Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define ADDITIONAL_SORT_TYPES``` and in it, you can put additional types like this:
+Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define SORTABLE_TYPES``` and in it, you can put additional types like this:
 
 ```C
-#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(my_type, my_type_cmp)
+#define SORTABLE_TYPES ADD_SORTABLE(my_type, my_type_cmp)
 ```
 
 the function ```my_type_cmp``` must be in this format: 
@@ -45,11 +45,11 @@ code example:
 ---
 ```C
 #define NEAT_SORT_IMPLEMENTATION
-#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(A, a_cmp), ADD_SORT_TYPE(B, b_cmp)
+#define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
 #include "neat_sort.h"
 
 typedef struct A {
-    int x;
+    int i;
 } A;
 
 typedef struct B {
@@ -57,7 +57,7 @@ typedef struct B {
 } B;
 
 int a_cmp(const A* a, const A* b) {
-    return a->x - b->x;
+    return a->i - b->i;
 }
 
 int b_cmp(const B* a, const B* b) {
@@ -74,9 +74,9 @@ int main() {
 ```
 If you prefer you can define the additional sort types on multiple lines, like so:
 ```C
-#define ADDITIONAL_SORT_TYPES \
-ADD_SORT_TYPE(A, a_cmp), \
-ADD_SORT_TYPE(B, b_cmp)
+#define SORTABLE_TYPES \
+ADD_SORTABLE(A, a_cmp), \
+ADD_SORTABLE(B, b_cmp)
 ```
 
 
