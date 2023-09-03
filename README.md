@@ -21,8 +21,7 @@ And to sort an array pointer:
 ```
 #include "neat_sort.h"
 
-void func(int n) {
-  int *arr = malloc(n * sizeof(int));
+void func(int *arr, int n) {
   SORT_PTR(arr, n)
 }
 ```
