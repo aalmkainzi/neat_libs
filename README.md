@@ -33,7 +33,9 @@ Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"
 
 ```#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(my_type, my_type_cmp)```
 
-the function my_type_cmp must be in this format: int (const my_type*, const my_type*) Basically a qsort compare function.
+the function my_type_cmp must be in this format: 
+```int (const my_type*, const my_type*)```
+Basically a qsort compare function.
 
 code example:
 ```
