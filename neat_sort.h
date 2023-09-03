@@ -60,7 +60,7 @@ qsort(arr, n, sizeof(*arr), cmp); \
 
 
 #define declare_number_cmp_func(type) int type##_cmp(const type *a, const type *b)
-#define define_number_cmp_func(type) declare_number_cmp_func { return (*a > *b) - (*b > *a); }
+#define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
 
 // these typedefs are for multi word types, for easy cmp function creation
 typedef unsigned char      uchar;
