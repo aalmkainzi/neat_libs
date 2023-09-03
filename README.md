@@ -7,7 +7,7 @@ API:
 Before including the library, you must do ```#define NEAT_SORT_IMPLEMENTATION``` once in your project.
 
 To sort a local stack array:
-```
+```C
 #define NEAT_SORT_IMPLEMENTATION
 #include "neat_sort.h"
 
@@ -18,7 +18,7 @@ int main()
 }
 ```
 And to sort an array pointer:
-```
+```C
 #include "neat_sort.h"
 
 void func(int *arr, int n) {
@@ -31,14 +31,18 @@ Extending with additional types:
 ---
 Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define ADDITIONAL_SORT_TYPES``` and in it, you can put additional types like this:
 
-```#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(my_type, my_type_cmp)```
+```C
+#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(my_type, my_type_cmp)
+```
 
-the function my_type_cmp must be in this format: 
-```int (const my_type*, const my_type*)```
+the function ```my_type_cmp``` must be in this format: 
+```C
+int (const my_type*, const my_type*)
+```
 Basically a qsort compare function.
 
 code example:
-```
+```C
 #define NEAT_SORT_IMPLEMENTATION
 #define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(A, a_cmp), ADD_SORT_TYPE(B, b_cmp)
 #include "neat_sort.h"
