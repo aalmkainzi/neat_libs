@@ -38,7 +38,7 @@ the function my_type_cmp must be in this format: int (const my_type*, const my_t
 code example:
 ```
 #define NEAT_SORT_IMPLEMENTATION
-#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(MyType, my_type_cmp), ADD_SORT_TYPE(MyType2, my_type2_cmp)
+#define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(A, a_cmp), ADD_SORT_TYPE(B, b_cmp)
 #include "neat_sort.h"
 
 typedef struct A {
