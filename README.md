@@ -42,6 +42,7 @@ int my_type_cmp(const my_type*, const my_type*)
 Basically a qsort compare function.
 
 code example:
+---
 ```C
 #define NEAT_SORT_IMPLEMENTATION
 #define ADDITIONAL_SORT_TYPES ADD_SORT_TYPE(A, a_cmp), ADD_SORT_TYPE(B, b_cmp)
