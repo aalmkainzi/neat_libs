@@ -9,7 +9,7 @@
 
 #ifdef SORTABLE_TYPES
 
-#define SORT_TYPES \
+#define ALL_SORTABLE_TYPES \
 ADD_SORTABLE(uint8_t,  neat_uint8_t_cmp), \
 ADD_SORTABLE(uint16_t, neat_uint16_t_cmp), \
 ADD_SORTABLE(uint32_t, neat_uint32_t_cmp), \
@@ -23,7 +23,7 @@ SORTABLE_TYPES
 
 #else
 
-#define SORT_TYPES \
+#define ALL_SORTABLE_TYPES \
 ADD_SORTABLE(uint8_t,  neat_uint8_t_cmp), \
 ADD_SORTABLE(uint16_t, neat_uint16_t_cmp), \
 ADD_SORTABLE(uint32_t, neat_uint32_t_cmp), \
@@ -42,7 +42,7 @@ typedef int (*cmp_func)(const void*, const void*);
 cmp_func cmp; \
 typeof(&arr[0]) arr_as_ptr = arr; \
 _Generic(arr_as_ptr, \
-    SORT_TYPES \
+    ALL_SORTABLE_TYPES \
 ); \
 qsort(arr, sizeof(arr) / sizeof(*arr), sizeof(*arr), cmp); \
 } while(0)
@@ -50,7 +50,7 @@ qsort(arr, sizeof(arr) / sizeof(*arr), sizeof(*arr), cmp); \
 #define SORT_PTR(arr, n) do { \
 cmp_func cmp; \
 _Generic(arr, \
-    SORT_TYPES \
+    ALL_SORTABLE_TYPES \
 ); \
 qsort(arr, n, sizeof(*arr), cmp); \
 } while(0)
