@@ -73,7 +73,7 @@ int main() {
 }
 ```
 If you prefer you can define the additional sort types on multiple lines, like so:
-```
+```C
 #define ADDITIONAL_SORT_TYPES \
 ADD_SORT_TYPE(A, a_cmp), \
 ADD_SORT_TYPE(B, b_cmp)
