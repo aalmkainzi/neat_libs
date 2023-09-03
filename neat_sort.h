@@ -25,7 +25,7 @@ ADDITIONAL_SORT_TYPES
 #else
 
 #define SORT_TYPES \
-ADD_SORT_TYPE(unsigned char,              uchar_cmp), \
+ADD_SORT_TYPE(unsigned char,      uchar_cmp), \
 ADD_SORT_TYPE(unsigned short,     ushort_cmp), \
 ADD_SORT_TYPE(unsigned int,       uint_cmp), \
 ADD_SORT_TYPE(unsigned long,      ulong_cmp), \
