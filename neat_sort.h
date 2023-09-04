@@ -18,7 +18,9 @@ ADD_SORTABLE(int8_t,   neat_int8_t_cmp), \
 ADD_SORTABLE(int16_t,  neat_int16_t_cmp), \
 ADD_SORTABLE(int32_t,  neat_int32_t_cmp), \
 ADD_SORTABLE(int64_t,  neat_int64_t_cmp), \
-ADD_SORTABLE(char*,    str_cmp), \
+ADD_SORTABLE(float,    neat_float_cmp), \
+ADD_SORTABLE(double,   neat_double_cmp), \
+ADD_SORTABLE(char*,    neat_str_cmp) \
 SORTABLE_TYPES
 
 #else
@@ -32,7 +34,9 @@ ADD_SORTABLE(int8_t,   neat_int8_t_cmp), \
 ADD_SORTABLE(int16_t,  neat_int16_t_cmp), \
 ADD_SORTABLE(int32_t,  neat_int32_t_cmp), \
 ADD_SORTABLE(int64_t,  neat_int64_t_cmp), \
-ADD_SORTABLE(char*,    str_cmp) \
+ADD_SORTABLE(float,    neat_float_cmp), \
+ADD_SORTABLE(double,   neat_double_cmp), \
+ADD_SORTABLE(char*,    neat_str_cmp) \
 
 #endif
 
@@ -71,7 +75,7 @@ define_number_cmp_func(uint64_t);
 define_number_cmp_func(float);
 define_number_cmp_func(double);
 
-int str_cmp(const char **s1, const char **s2)
+int neat_str_cmp(const char **s1, const char **s2)
 {
     return strcmp(*s1, *s2);
 }
@@ -87,7 +91,7 @@ declare_number_cmp_func(int64_t);
 declare_number_cmp_func(uint64_t);
 declare_number_cmp_func(float);
 declare_number_cmp_func(double);
-int str_cmp(const char **s1, const char **s2);
+int neat_str_cmp(const char **s1, const char **s2);
 #endif
 
 #endif
