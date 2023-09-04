@@ -55,15 +55,12 @@ for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
 
 #define REVERSE(arr) REVERSE_PTR(arr, (sizeof(arr) / sizeof(*arr)))
 
-#define SORT_DESC(arr) do { \
-SORT(arr); \
-REVERSE(arr); \
-} while(0)
-
 #define SORT_DESC_PTR(arr, n) do { \
 SORT_PTR(arr, n); \
 REVERSE_PTR(arr, n); \
 } while(0)
+
+#define SORT_DESC(arr) SORT_DESC_PTR(arr, (sizeof(arr) / sizeof(*arr)))
 
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
