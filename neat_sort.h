@@ -62,7 +62,7 @@ qsort(arr, n, sizeof(*arr), cmp); \
 #define REVERSE(arr) do { \
 int neat_arr_len = sizeof(arr) / sizeof(*arr); \
 for(int neat_iter = 0; neat_iter < neat_arr_len/2; neat_iter++) { \
-    neat_temp = arr[neat_iter]; \
+    typeof(*arr) neat_temp = arr[neat_iter]; \
     arr[neat_iter] = arr[neat_arr_len - neat_iter -1]; \
     arr[neat_arr_len - 1 - neat_iter] = neat_temp; \
 } \
@@ -70,7 +70,7 @@ for(int neat_iter = 0; neat_iter < neat_arr_len/2; neat_iter++) { \
 
 #define REVERSE_PTR(arr, n) do { \
 for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
-    neat_temp = arr[neat_iter]; \
+    typeof(*arr) neat_temp = arr[neat_iter]; \
     arr[neat_iter] = arr[n - neat_iter -1]; \
     arr[n - 1 - neat_iter] = neat_temp; \
 } \
