@@ -42,7 +42,7 @@ ADD_SORTABLE(char*,    neat_str_cmp) \
 
 typedef int (*cmp_func)(const void*, const void*);
 
-#define SORT( arr ) do { \
+#define SORT(arr) do { \
 cmp_func cmp; \
 typeof(&arr[0]) arr_as_ptr = arr; \
 _Generic(arr_as_ptr, \
@@ -57,6 +57,33 @@ _Generic(arr, \
     ALL_SORTABLE_TYPES \
 ); \
 qsort(arr, n, sizeof(*arr), cmp); \
+} while(0)
+
+#define REVERSE(arr) do { \
+int neat_arr_len = sizeof(arr) / sizeof(*arr); \
+for(int neat_iter = 0; neat_iter < neat_arr_len/2; neat_iter++) { \
+    neat_temp = arr[neat_iter]; \
+    arr[neat_iter] = arr[neat_arr_len - neat_iter -1]; \
+    arr[neat_arr_len - 1 - neat_iter] = neat_temp; \
+} \
+} while(0)
+
+#define REVERSE_PTR(arr, n) do { \
+for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
+    neat_temp = arr[neat_iter]; \
+    arr[neat_iter] = arr[n - neat_iter -1]; \
+    arr[n - 1 - neat_iter] = neat_temp; \
+} \
+} while(0)
+
+#define SORT_DESC(arr) do { \
+SORT(arr); \
+REVERSE(arr); \
+} while(0)
+
+#define SORT_DESC_PTR(arr, n) do { \
+SORT_PTR(arr, n); \
+REVERSE_PTR(arr, n); \
 } while(0)
 
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
