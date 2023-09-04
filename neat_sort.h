@@ -20,7 +20,7 @@ ADD_SORTABLE(int32_t,  neat_int32_t_cmp), \
 ADD_SORTABLE(int64_t,  neat_int64_t_cmp), \
 ADD_SORTABLE(float,    neat_float_cmp), \
 ADD_SORTABLE(double,   neat_double_cmp), \
-ADD_SORTABLE(char*,    neat_str_cmp) \
+ADD_SORTABLE(char*,    neat_str_cmp), \
 SORTABLE_TYPES
 
 #else
