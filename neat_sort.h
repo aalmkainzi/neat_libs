@@ -81,7 +81,7 @@ REVERSE_PTR(arr, n); \
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
 
-// compare functions to pass to qsort
+// default compare functions to pass to qsort
 #ifdef NEAT_SORT_IMPLEMENTATION
 define_number_cmp_func(int8_t);
 define_number_cmp_func(uint8_t);
