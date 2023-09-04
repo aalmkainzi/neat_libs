@@ -27,6 +27,8 @@ void func(int *arr, int n) {
 ```
 ```SORT_PTR``` can also be called on local arrays.
 
+To do descending sort, use ```SORT_DESC``` and ```SORT_DESC_PTR``` instead
+
 Extending with additional types:
 ---
 Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define SORTABLE_TYPES``` and in it, you can put additional types like this:
