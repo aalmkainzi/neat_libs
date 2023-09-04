@@ -5,11 +5,9 @@
 #include <string.h>
 #include <stdint.h>
 
-#define ADD_SORTABLE(type, cmp_function) type*: cmp = (cmp_func) cmp_function
+#define ADD_SORTABLE(type, cmp_function) type: cmp = (cmp_func) cmp_function
 
-#ifdef SORTABLE_TYPES
-
-#define ALL_SORTABLE_TYPES \
+#define DEFAULT_SORTABLE_TYPES \
 ADD_SORTABLE(uint8_t,  neat_uint8_t_cmp), \
 ADD_SORTABLE(uint16_t, neat_uint16_t_cmp), \
 ADD_SORTABLE(uint32_t, neat_uint32_t_cmp), \
@@ -20,23 +18,18 @@ ADD_SORTABLE(int32_t,  neat_int32_t_cmp), \
 ADD_SORTABLE(int64_t,  neat_int64_t_cmp), \
 ADD_SORTABLE(float,    neat_float_cmp), \
 ADD_SORTABLE(double,   neat_double_cmp), \
-ADD_SORTABLE(char*,    neat_str_cmp), \
+ADD_SORTABLE(char*,    neat_str_cmp)
+
+#ifdef SORTABLE_TYPES
+
+#define ALL_SORTABLE_TYPES \
+DEFAULT_SORTABLE_TYPES, \
 SORTABLE_TYPES
 
 #else
 
 #define ALL_SORTABLE_TYPES \
-ADD_SORTABLE(uint8_t,  neat_uint8_t_cmp), \
-ADD_SORTABLE(uint16_t, neat_uint16_t_cmp), \
-ADD_SORTABLE(uint32_t, neat_uint32_t_cmp), \
-ADD_SORTABLE(uint64_t, neat_uint64_t_cmp), \
-ADD_SORTABLE(int8_t,   neat_int8_t_cmp), \
-ADD_SORTABLE(int16_t,  neat_int16_t_cmp), \
-ADD_SORTABLE(int32_t,  neat_int32_t_cmp), \
-ADD_SORTABLE(int64_t,  neat_int64_t_cmp), \
-ADD_SORTABLE(float,    neat_float_cmp), \
-ADD_SORTABLE(double,   neat_double_cmp), \
-ADD_SORTABLE(char*,    neat_str_cmp) \
+DEFAULT_SORTABLE_TYPES
 
 #endif
 
@@ -44,8 +37,7 @@ typedef int (*cmp_func)(const void*, const void*);
 
 #define SORT(arr) do { \
 cmp_func cmp; \
-typeof(&arr[0]) arr_as_ptr = arr; \
-_Generic(arr_as_ptr, \
+_Generic(*arr, \
     ALL_SORTABLE_TYPES \
 ); \
 qsort(arr, sizeof(arr) / sizeof(*arr), sizeof(*arr), cmp); \
@@ -53,7 +45,7 @@ qsort(arr, sizeof(arr) / sizeof(*arr), sizeof(*arr), cmp); \
 
 #define SORT_PTR(arr, n) do { \
 cmp_func cmp; \
-_Generic(arr, \
+_Generic(*arr, \
     ALL_SORTABLE_TYPES \
 ); \
 qsort(arr, n, sizeof(*arr), cmp); \
