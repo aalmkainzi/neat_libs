@@ -31,7 +31,7 @@ SORTABLE_TYPES
 #define ALL_SORTABLE_TYPES \
 DEFAULT_SORTABLE_TYPES
 
-#endif
+#endif // SORTABLE_TYPES
 
 typedef int (*cmp_func)(const void*, const void*);
 
@@ -45,7 +45,7 @@ qsort(arr, n, sizeof(*arr), cmp); \
 
 #define SORT(arr) SORT_PTR(arr, (sizeof(arr) / sizeof(*arr)))
 
-#define REVERSE_PTR(arr, n) do { \
+#define REVERSE_ARRAY_PTR(arr, n) do { \
 for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
     typeof(*arr) neat_temp = arr[neat_iter]; \
     arr[neat_iter] = arr[n - neat_iter -1]; \
@@ -53,11 +53,11 @@ for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
 } \
 } while(0)
 
-#define REVERSE(arr) REVERSE_PTR(arr, (sizeof(arr) / sizeof(*arr)))
+#define REVERSE_ARRAY(arr) REVERSE_ARRAY_PTR(arr, (sizeof(arr) / sizeof(*arr)))
 
 #define SORT_DESC_PTR(arr, n) do { \
 SORT_PTR(arr, n); \
-REVERSE_PTR(arr, n); \
+REVERSE_ARRAY_PTR(arr, n); \
 } while(0)
 
 #define SORT_DESC(arr) SORT_DESC_PTR(arr, (sizeof(arr) / sizeof(*arr)))
@@ -95,6 +95,6 @@ declare_number_cmp_func(uint64_t);
 declare_number_cmp_func(float);
 declare_number_cmp_func(double);
 int neat_str_cmp(const char **s1, const char **s2);
-#endif
+#endif // NEAT_SORT_IMPLEMENTATION
 
-#endif
+#endif // NEAT_SORT_H
