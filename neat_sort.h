@@ -35,6 +35,8 @@ DEFAULT_SORTABLE_TYPES
 
 typedef int (*cmp_func)(const void*, const void*);
 
+#define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
+
 #define SORT_PTR(arr, n) do { \
 cmp_func cmp; \
 _Generic(*arr, \
@@ -43,7 +45,7 @@ _Generic(*arr, \
 qsort(arr, n, sizeof(*arr), cmp); \
 } while(0)
 
-#define SORT(arr) SORT_PTR(arr, (sizeof(arr) / sizeof(*arr)))
+#define SORT(arr) SORT_PTR(arr, ARR_LEN(arr))
 
 #define REVERSE_ARRAY_PTR(arr, n) do { \
 for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
@@ -53,19 +55,54 @@ for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
 } \
 } while(0)
 
-#define REVERSE_ARRAY(arr) REVERSE_ARRAY_PTR(arr, (sizeof(arr) / sizeof(*arr)))
+#define REVERSE_ARRAY(arr) REVERSE_ARRAY_PTR(arr, ARR_LEN(arr))
 
 #define SORT_DESC_PTR(arr, n) do { \
 SORT_PTR(arr, n); \
 REVERSE_ARRAY_PTR(arr, n); \
 } while(0)
 
-#define SORT_DESC(arr) SORT_DESC_PTR(arr, (sizeof(arr) / sizeof(*arr)))
+#define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
+
+#define BSEARCH_PTR(arr, n, key, out) do { \
+typeof(key) neat_temp = key; \
+void *neat_key = &neat_temp; \
+cmp_func cmp; \
+out = (typeof(out)) bsearch (neat_key, arr, n, sizeof(*arr), _Generic(*arr, ALL_SORTABLE_TYPES)); \
+} while(0)
+
+// instead of reversing twice. Maybe store a 'save' variable? would require heap allocation tho...
+#define BSEARCH_DESC_PTR(arr, n, key, out) do { \
+REVERSE_ARRAY_PTR(arr, n); \
+BSEARCH_PTR(arr, n, key, out); \
+REVERSE_ARRAY_PTR(arr, n); \
+} while(0)
+
+#define BSEARCH(arr, key, out) BSEARCH_PTR(arr, ARR_LEN(arr), key, out)
+
+#define BSEARCH_DESC(arr, key, out) BSEARCH_DESC_PTR(arr, ARR_LEN(arr), key, out)
+
+#define SEARCH_PTR(arr, n, key, out) do { \
+cmp_func cmp; \
+typeof(key) neat_key = key; \
+_Generic(*arr, \
+ALL_SORTABLE_TYPES \
+); \
+out = NULL; \
+for(int i = 0 ; i < n ; i++) { \
+    if(cmp(&neat_key, &arr[i]) == 0) { \
+        out = &arr[i]; \
+        break; \
+    } \
+} \
+} while(0)
+
+#define SEARCH(arr, key, out) SEARCH_PTR(arr, ARR_LEN(arr), key, out)
 
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
 
-// default compare functions to pass to qsort
+// default compare functions to pass to qsort/bsearch
 #ifdef NEAT_SORT_IMPLEMENTATION
 define_number_cmp_func(int8_t);
 define_number_cmp_func(uint8_t);
