@@ -141,7 +141,7 @@ int main() {
   elm = BSEARCH(arr, (A){.i = 5} );
 
   B arr2[10];
-  B *elm2 = SEARCH(B, (B){.c = 'a'} );
+  B *elm2 = SEARCH(arr2, (B){.c = 'a'} );
 
   SORT( arr2 );
   elm2 = BSEARCH(arr2, (B){.c = 'c'} );
