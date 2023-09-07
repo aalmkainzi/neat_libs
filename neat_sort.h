@@ -71,9 +71,8 @@ REVERSE_ARRAY_PTR(arr, n); \
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
 
-// default compare functions to pass to qsort/bsearch
 #ifdef NEAT_SORT_IMPLEMENTATION
-    
+    // default compare functions to pass to qsort/bsearch
     define_number_cmp_func(int8_t);
     define_number_cmp_func(uint8_t);
     define_number_cmp_func(int16_t);
@@ -84,7 +83,6 @@ REVERSE_ARRAY_PTR(arr, n); \
     define_number_cmp_func(uint64_t);
     define_number_cmp_func(float);
     define_number_cmp_func(double);
-    
     int neat_str_cmp(const char **s1, const char **s2)
     {
         return strcmp(*s1, *s2);
