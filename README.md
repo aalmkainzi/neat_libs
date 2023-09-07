@@ -46,8 +46,9 @@ Basically a qsort compare function.
 Sorting code example:
 ---
 ```C
-#define NEAT_SORT_IMPLEMENTATION
 #define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
+
+#define NEAT_SORT_IMPLEMENTATION
 #include "neat_sort.h"
 
 typedef struct A {
@@ -112,8 +113,11 @@ void g(float *arr, int n)
 Searching code example
 ---
 ```C
+#define SORTABLE_TYPES \
+ADD_SORTABLE(A, a_cmp), \
+ADD_SORTABLE(B, b_cmp)
+
 #define NEAT_SORT_IMPLEMENTATION
-#define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
 #include "neat_sort.h"
 
 typedef struct A {
