@@ -99,7 +99,7 @@ int main()
   elm = SEARCH(arr, 6.28);  // does linear search
 }
 ```
-Both return a pointer to the found element in the array.
+Both return a pointer to the found element in the array, ```NULL``` if not found.
 
 ```SEARCH_PTR``` and ```BSEARCH_PTR``` are similar to their sorting equivilant:
 ```C
