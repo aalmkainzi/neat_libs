@@ -43,7 +43,7 @@ int my_type_cmp(const my_type*, const my_type*)
 ```
 Basically a qsort compare function.
 
-Sorting code example:
+Sorting example:
 ---
 ```C
 #define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
@@ -110,7 +110,7 @@ void g(float *arr, int n)
   elm = SEARCH_PTR(arr, n, 6.28);  // does linear search
 }
 ```
-Searching code example
+Searching example
 ---
 ```C
 #define SORTABLE_TYPES \
