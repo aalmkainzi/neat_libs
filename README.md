@@ -101,7 +101,7 @@ int main()
 ```
 Both return a pointer to the found element in the array, ```NULL``` if not found.
 
-```SEARCH_PTR``` and ```BSEARCH_PTR``` are similar to their sorting equivilant:
+```SEARCH_PTR``` and ```BSEARCH_PTR``` are similar to their sorting equivalent:
 ```C
 void g(float *arr, int n)
 {
