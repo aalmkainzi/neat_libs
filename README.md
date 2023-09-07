@@ -1,6 +1,6 @@
 # neat_sort_library
 
-A simple api for sorting in C. By default it has sorting for all the main numeric types, also strings. Additional types can be added by user of the library.
+A simple API for sorting in C. By default it has sorting for all the main numeric types, also strings. Additional types can be added by user of the library.
 
 API:
 ---
@@ -21,7 +21,7 @@ And to sort an array pointer:
 ```C
 #include "neat_sort.h"
 
-void func(int *arr, int n) {
+void f(int *arr, int n) {
   SORT_PTR(arr, n)
 }
 ```
@@ -43,7 +43,7 @@ int my_type_cmp(const my_type*, const my_type*)
 ```
 Basically a qsort compare function.
 
-code example:
+sorting code example:
 ---
 ```C
 #define NEAT_SORT_IMPLEMENTATION
@@ -81,5 +81,69 @@ ADD_SORTABLE(A, a_cmp), \
 ADD_SORTABLE(B, b_cmp)
 ```
 
+Searching
+---
+For all sortable types, you can also use binary search and linear search with ```BSEARCH``` and ```SEARCH```:
+```C
+#define NEAT_SORT_IMPLEMENTATION
+#include "neat_sort.h"
 
+int main()
+{
+  float arr[10];
+  SORT( arr );
 
+  float *elm;
+  elm = BSEARCH(arr, 3.14); // calls stdlib bsearch
+  elm = SEARCH(arr, 6.28);  // does linear search
+}
+```
+Both return a pointer to the found element in the array.
+
+```SEARCH_PTR``` and ```BSEARCH_PTR``` are similar to their sorting equivilant:
+```C
+void g(float *arr, int n)
+{
+  float *elm;
+  elm = BSEARCH_PTR(arr, n, 3.14); // calls stdlib bsearch
+  elm = SEARCH_PTR(arr, n, 6.28);  // does linear search
+}
+```
+searching code example
+---
+```C
+#define NEAT_SORT_IMPLEMENTATION
+#define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
+#include "neat_sort.h"
+
+typedef struct A {
+    int i;
+} A;
+
+typedef struct B {
+    char c;
+} B;
+
+int a_cmp(const A* a, const A* b) {
+  return a->i - b->i;
+}
+
+int b_cmp(const B* a, const B* b) {
+  return a->c - b->c;
+}
+
+int main() {
+  A arr[10];
+
+  A *elm = SEARCH(arr, (A){.i = 3} );
+
+  SORT( arr );
+  elm = BSEARCH(arr, (A){.i = 5} );
+
+  B arr2[10];
+  B *elm2 = SEARCH(B, (B){.c = 'a'} );
+
+  SORT( arr2 );
+  elm2 = BSEARCH(arr2, (B){.c = 'c'} );
+}
+```
