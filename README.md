@@ -138,7 +138,6 @@ int b_cmp(const B* a, const B* b) {
 
 int main() {
   A arr[10];
-
   A *elm = SEARCH(arr, (A){.i = 3} );
 
   SORT( arr );
