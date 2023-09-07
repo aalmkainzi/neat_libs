@@ -63,7 +63,7 @@ REVERSE_ARRAY_PTR(arr, n); \
 
 #define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
 
-#define BSEARCH_PTR(arr, n, key) bsearch (&key, arr, n, sizeof(*arr), GET_CMP_FOR(*arr)); \
+#define BSEARCH_PTR(arr, n, key) bsearch (&key, arr, n, sizeof(*arr), GET_CMP_FOR(*arr)) \
 
 #define BSEARCH(arr, key) BSEARCH_PTR(arr, ARR_LEN(arr), key)
 
