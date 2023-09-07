@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define ADD_SORTABLE(type, cmp_function) type: cmp = (cmp_func) cmp_function
+#define ADD_SORTABLE(type, cmp_function) type: cmp_function
 
 #define DEFAULT_SORTABLE_TYPES \
 ADD_SORTABLE(uint8_t,  neat_uint8_t_cmp), \
@@ -37,11 +37,10 @@ typedef int (*cmp_func)(const void*, const void*);
 
 #define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
 
+#define GET_CMP_FOR(type) ((cmp_func) _Generic(type, ALL_SORTABLE_TYPES))
+
 #define SORT_PTR(arr, n) do { \
-cmp_func cmp; \
-_Generic(*arr, \
-    ALL_SORTABLE_TYPES \
-); \
+cmp_func cmp = GET_CMP_FOR(*arr); \
 qsort(arr, n, sizeof(*arr), cmp); \
 } while(0)
 
@@ -64,40 +63,13 @@ REVERSE_ARRAY_PTR(arr, n); \
 
 #define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
 
-#define BSEARCH_PTR(arr, n, key, out) do { \
-typeof(key) neat_temp = key; \
-void *neat_key = &neat_temp; \
-cmp_func cmp; \
-out = (typeof(out)) bsearch (neat_key, arr, n, sizeof(*arr), _Generic(*arr, ALL_SORTABLE_TYPES)); \
-} while(0)
+#define BSEARCH_PTR(arr, n, key) bsearch (&key, arr, n, sizeof(*arr), GET_CMP_FOR(*arr)); \
 
-// instead of reversing twice. Maybe store a 'save' variable? would require heap allocation tho...
-#define BSEARCH_DESC_PTR(arr, n, key, out) do { \
-REVERSE_ARRAY_PTR(arr, n); \
-BSEARCH_PTR(arr, n, key, out); \
-REVERSE_ARRAY_PTR(arr, n); \
-} while(0)
+#define BSEARCH(arr, key) BSEARCH_PTR(arr, ARR_LEN(arr), key)
 
-#define BSEARCH(arr, key, out) BSEARCH_PTR(arr, ARR_LEN(arr), key, out)
+#define SEARCH_PTR(arr, n, key) neat_search(&key, arr, n, sizeof(*arr), GET_CMP_FOR(*arr))
 
-#define BSEARCH_DESC(arr, key, out) BSEARCH_DESC_PTR(arr, ARR_LEN(arr), key, out)
-
-#define SEARCH_PTR(arr, n, key, out) do { \
-cmp_func cmp; \
-typeof(key) neat_key = key; \
-_Generic(*arr, \
-ALL_SORTABLE_TYPES \
-); \
-out = NULL; \
-for(int i = 0 ; i < n ; i++) { \
-    if(cmp(&neat_key, &arr[i]) == 0) { \
-        out = &arr[i]; \
-        break; \
-    } \
-} \
-} while(0)
-
-#define SEARCH(arr, key, out) SEARCH_PTR(arr, ARR_LEN(arr), key, out)
+#define SEARCH(arr, key) SEARCH_PTR(arr, ARR_LEN(arr), key)
 
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
@@ -120,6 +92,17 @@ int neat_str_cmp(const char **s1, const char **s2)
     return strcmp(*s1, *s2);
 }
 
+void *neat_search(const void *key, const void *base, size_t nmemb, size_t elm_size, cmp_func cmp)
+{
+    const uint8_t *arr = (const uint8_t *) base;
+    for(size_t i = 0 ; i < nmemb ; i++)
+    {
+        const uint8_t *elm = arr + i * elm_size;
+        if(cmp(key, elm) == 0) return elm;
+    }
+    return NULL;
+}
+
 #else
 declare_number_cmp_func(int8_t);
 declare_number_cmp_func(uint8_t);
@@ -132,6 +115,9 @@ declare_number_cmp_func(uint64_t);
 declare_number_cmp_func(float);
 declare_number_cmp_func(double);
 int neat_str_cmp(const char **s1, const char **s2);
+
+void *neat_search(const void *key, const void *base, size_t nmemb, size_t elm_size, cmp_func cmp);
+
 #endif // NEAT_SORT_IMPLEMENTATION
 
 #endif // NEAT_SORT_H
