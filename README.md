@@ -43,7 +43,7 @@ int my_type_cmp(const my_type*, const my_type*)
 ```
 Basically a qsort compare function.
 
-sorting code example:
+Sorting code example:
 ---
 ```C
 #define NEAT_SORT_IMPLEMENTATION
@@ -109,7 +109,7 @@ void g(float *arr, int n)
   elm = SEARCH_PTR(arr, n, 6.28);  // does linear search
 }
 ```
-searching code example
+Searching code example
 ---
 ```C
 #define NEAT_SORT_IMPLEMENTATION
