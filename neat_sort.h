@@ -1,3 +1,85 @@
+/*
+    This is single-header library that provides an easy-to-use API
+    for sorting and searching arrays.
+    
+    To use this library, do this in *one* C file:
+        #define NEAT_SORT_IMPLEMENTATION
+        #include "neat_sort.h"
+    
+    DOCUMENTATION
+        
+        By default this library has sorting/searching support for
+        strings and all the main numeric types. User types can
+        easily be added.
+        
+        Extending with additonal types:
+            #define SORTABLE_TYPES ADD_SORTABLE(S, s_cmp)
+            #include "neat_sort.h"
+        
+        s_cmp must be a function with this prototype:
+            
+            int s_cmp(const S *a, const S *b);
+            
+        And it should return:
+            if a > b => a positive number
+            if a < b => a negative number
+            if a = b => 0
+        
+        Basically a normal qsort compare function.
+        
+        You can add as many sortable types as you want:
+            #define SORTABLE_TYPES \
+            ADD_SORTABLE(S, s_cmp), \
+            ADD_SORTABLE(S2, s2_cmp), \
+            ADD_SORTABLE(S3, s3_cmp)
+            
+            #include "neat_sort.h"
+        
+        make sure to only put commas *between* the ADD_SORTABLE calls.
+        
+        From here on out, I'll refer to a sortable type by S
+        
+        Functions (actually macros):
+            
+            SORT:
+                void SORT(S[]);
+                  Sorts the local stack array.
+                 
+            SORT_PTR:
+                void SORT_PTR(S*, size_t n);
+                  Sorts the array pointer with length n.
+                 
+            SORT_DESC:
+                void SORT_DESC(S[]);
+                  Descendingly sorts the local stack array.
+                
+            SORT_DESC_PTR:
+                void SORT_DESC_PTR(S*, size_t n);
+                  Descendingly sorts the array pointer with length n.
+                  
+            BSEARCH:
+                S *BSEARCH(S[], S k);
+                  Does binary search to find k in the local array.
+                  Returns a pointer to it if found, NULL otherwise.
+                  
+            BSEARCH_PTR:
+                S *BSEARCH_PTR(S*, size_t n, S k);
+                  Does binary search to find k in the array pointer
+                  with length n.
+                  Returns a pointer to it if found, NULL otherwise.
+                  
+            SEARCH:
+                S *SEARCH(S[], S k);
+                  Does linear search to find k in the local array.
+                  Returns a pointer to it if found, NULL otherwise.
+                
+            SEARCH_PTR:
+                S *SEARCH(S*, size_t n, S k);
+                  Does linear search to find k in the array pointer
+                  of length n.
+                  Returns a pointer to it if found, NULL otherwise.
+*/
+
 #ifndef NEAT_SORT_H
 #define NEAT_SORT_H
 
