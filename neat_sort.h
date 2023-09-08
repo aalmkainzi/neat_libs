@@ -37,7 +37,7 @@
         
         make sure to only put commas *between* the ADD_SORTABLE calls.
         
-        From here on out, I'll refer to a sortable type by S
+        From here on out I'll refer to a sortable type by S
         
         Functions (actually macros):
             
