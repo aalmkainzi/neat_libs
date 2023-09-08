@@ -1,9 +1,13 @@
-# neat_sort
+
+# neat_libs
+A collection of header-only C libraries.
+- [neat_sort](#neat_sort)
+
+## neat_sort
 
 A simple API for sorting and searching in C. By default it has sorting for all the main numeric types, also strings. Additional types can be added by user of the library.
 
-API:
----
+### API:
 Before including the library, you must do ```#define NEAT_SORT_IMPLEMENTATION``` once in your project.
 
 To sort a local stack array:
@@ -29,8 +33,7 @@ void f(int *arr, int n) {
 
 To do descending sort, use ```SORT_DESC``` and ```SORT_DESC_PTR``` instead
 
-Extending with additional types:
----
+### Extending with additional types:
 Adding addtional types to sort is simple. Before doing ```#include "neat_sort.h"``` define a macro called ```#define SORTABLE_TYPES``` and in it, you can put additional types like this:
 
 ```C
@@ -43,8 +46,7 @@ int my_type_cmp(const my_type*, const my_type*)
 ```
 Basically a qsort compare function.
 
-Sorting example:
----
+### Sorting example:
 ```C
 #define SORTABLE_TYPES ADD_SORTABLE(A, a_cmp), ADD_SORTABLE(B, b_cmp)
 
@@ -82,8 +84,7 @@ ADD_SORTABLE(A, a_cmp), \
 ADD_SORTABLE(B, b_cmp)
 ```
 
-Searching
----
+### Searching
 For all sortable types, you can also use binary search and linear search with ```BSEARCH``` and ```SEARCH```:
 ```C
 #define NEAT_SORT_IMPLEMENTATION
@@ -110,8 +111,7 @@ void g(float *arr, int n)
   elm = SEARCH_PTR(arr, n, 6.28);  // does linear search
 }
 ```
-Searching example
----
+### Searching example
 ```C
 #define SORTABLE_TYPES \
 ADD_SORTABLE(A, a_cmp), \
