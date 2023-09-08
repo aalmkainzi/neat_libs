@@ -153,3 +153,5 @@ int main() {
 ```
 
 ## neat_iterator
+
+An easy-to-use library that provides iterators in C.
