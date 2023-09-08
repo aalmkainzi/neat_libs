@@ -2,6 +2,7 @@
 # neat_libs
 A collection of header-only C libraries.
 - [neat_sort](#neat_sort)
+- [neat_iterator](#neat_iterator)
 
 ## neat_sort
 
@@ -150,3 +151,5 @@ int main() {
   elm2 = BSEARCH(arr2, (B){.c = 'c'} );
 }
 ```
+
+## neat_iterator
