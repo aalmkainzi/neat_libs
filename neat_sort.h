@@ -47,7 +47,7 @@
                  
             SORT_PTR:
                 void SORT_PTR(S*, size_t n);
-                  Sorts the array pointer with length n.
+                  Sorts the array pointer of length n.
                  
             SORT_DESC:
                 void SORT_DESC(S[]);
@@ -55,7 +55,7 @@
                 
             SORT_DESC_PTR:
                 void SORT_DESC_PTR(S*, size_t n);
-                  Descendingly sorts the array pointer with length n.
+                  Descendingly sorts the array pointer of length n.
                   
             BSEARCH:
                 S *BSEARCH(S[], S k);
@@ -65,7 +65,7 @@
             BSEARCH_PTR:
                 S *BSEARCH_PTR(S*, size_t n, S k);
                   Does binary search to find k in the array pointer
-                  with length n.
+                  of length n.
                   Returns a pointer to it if found, NULL otherwise.
                   
             SEARCH:
