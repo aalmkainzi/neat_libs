@@ -110,9 +110,9 @@
 
 #define it_prev(iterable, ptr) ((it_type(iterable) (*)(typeof(iterable)*, it_type(iterable) ))NEAT_GET_ITERS_OF(iterable)[3])(&iterable, ptr)
 
-#define go_next(iterable, ptr) (ptr = it_next(iterable, ptr)
+#define go_next(iterable, ptr) (ptr = it_next(iterable, ptr))
 
-#define go_prev(iterable, ptr) (ptr = it_prev(iterable, ptr)
+#define go_prev(iterable, ptr) (ptr = it_prev(iterable, ptr))
 
 #define foreach(name, iter) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
 
