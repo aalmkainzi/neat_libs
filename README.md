@@ -175,22 +175,22 @@ i = it_prev(vec, i);
 ```
 And you can also use foreach loops:
 ```C
-// loops from beginning to end. with iter name it
+// loops from beginning to end. with iterator name it
 foreach(it, vec) {
     ...
 }
 
-// loops from end to beginning. with iter name it
+// loops from end to beginning. with iterator name it
 foreach_r(it, vec) {
     ...
 }
 
-// loops from beginning to end, skipping n every iteration. with iter name it
+// loops from beginning to end, skipping n every iteration. with iterator name it
 foreach_skip(it, vec, n) {
     ...
 }
 
-// loops from end to beginning, skipping n every iteration. with iter name it
+// loops from end to beginning, skipping n every iteration. with iterator name it
 foreach_skip_r(it, vec, n) {
     ...
 }
