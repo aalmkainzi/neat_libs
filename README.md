@@ -172,6 +172,7 @@ int *i;
 i = it_begin(vec);
 i = it_next(vec, i);
 i = it_prev(vec, i);
+i = it_end(vec);
 ```
 And you can also use foreach loops:
 ```C
