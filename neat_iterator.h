@@ -13,7 +13,7 @@
                must have this prototype
                  E *begin(T*);
                  
-        end  : Function that returns a pointer to the last element,
+        end  : Function that returns a pointer to the past the last element,
                must have this prototype
                  E *end(T*);
                  
@@ -47,7 +47,7 @@
             
             it_end:
                 E *it_end(T t);
-                  Returns a pointer to the last element of t
+                  Returns a pointer to past the last element of t
             
             it_next:
                 E *it_next(T t, E *current);
@@ -97,31 +97,31 @@
 
 #define it_prev(iterable, ptr) ((t_of_ptr(iterable) (*)(typeof(iterable)*, t_of_ptr(iterable) ))NEAT_GET_ITERS_OF(iterable)[3])(&iterable, ptr)
 
-#define foreach(name, iter) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_next(iter, it_end(iter)); name != neat_last_##name ; name = it_next(iter, name))
+#define foreach(name, iter) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
 
-#define foreach_r(name, iter) for( t_of_ptr(iter) name = it_end(iter), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = it_prev(iter, name))
+#define foreach_r(name, iter) for( t_of_ptr(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = it_prev(iter, name))
 
-#define foreach_skip(name, iter, by) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_next(iter, it_end(iter)); name != neat_last_##name ; name = neat_iter_skip(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[2], neat_last_##name, by))
+#define foreach_skip(name, iter, by) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = neat_iter_skip(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[2], neat_last_##name, by))
 
-#define foreach_skip_r(name, iter, by) for( t_of_ptr(iter) name = it_end(iter), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = neat_iter_skip_r(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[3], neat_last_##name, by))
+#define foreach_skip_r(name, iter, by) for( t_of_ptr(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = neat_iter_skip_r(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[3], neat_last_##name, by))
 
 typedef void*(*neat_generic_next_prev)(void*, void*);
 typedef void*(*neat_generic_begin_end)(void*);
 
-static inline void *neat_iter_skip(void *iter, void *current, neat_generic_next_prev next, void *end, int by)
+static inline void *neat_iter_skip(void *iter, void *current, neat_generic_next_prev next, void *limit, int by)
 {
     void *ret = current;
-    for(int i = 0 ; i < by && ret != end ; i++)
+    for(int i = 0 ; i < by && ret != limit ; i++)
     {
         ret = next(iter, ret);
     }
     return ret;
 }
 
-static inline void *neat_iter_skip_r(void *iter, void *current, neat_generic_next_prev prev, void *begin, int by)
+static inline void *neat_iter_skip_r(void *iter, void *current, neat_generic_next_prev prev, void *limit, int by)
 {
     void *ret = current;
-    for(int i = 0 ; i < by && ret != begin ; i++)
+    for(int i = 0 ; i < by && ret != limit ; i++)
     {
         ret = prev(iter, ret);
     }
