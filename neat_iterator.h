@@ -59,7 +59,7 @@
             
             it_type:
                 typeof(E*) it_type(T);
-                  Returns the type of the iterator associeated with 
+                  Returns the type of the iterator associated with 
                   an iterable type
             
         Loops:
