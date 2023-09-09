@@ -87,23 +87,23 @@
 
 #define NEAT_GET_ITERS_OF(iterable_type) _Generic(iterable_type, ITERABLE_TYPES)
 
-#define t_of_ptr(t) typeof(NEAT_GET_ITERS_OF(t)[0](0))
+#define it_type(t) typeof(NEAT_GET_ITERS_OF(t)[0](0))
 
 #define it_begin(iterable) NEAT_GET_ITERS_OF(iterable)[0](&iterable)
 
 #define it_end(iterable) NEAT_GET_ITERS_OF(iterable)[1](&iterable)
 
-#define it_next(iterable, ptr) ((t_of_ptr(iterable) (*)(typeof(iterable)*, t_of_ptr(iterable) ))NEAT_GET_ITERS_OF(iterable)[2])(&iterable, ptr)
+#define it_next(iterable, ptr) ((it_type(iterable) (*)(typeof(iterable)*, it_type(iterable) ))NEAT_GET_ITERS_OF(iterable)[2])(&iterable, ptr)
 
-#define it_prev(iterable, ptr) ((t_of_ptr(iterable) (*)(typeof(iterable)*, t_of_ptr(iterable) ))NEAT_GET_ITERS_OF(iterable)[3])(&iterable, ptr)
+#define it_prev(iterable, ptr) ((it_type(iterable) (*)(typeof(iterable)*, it_type(iterable) ))NEAT_GET_ITERS_OF(iterable)[3])(&iterable, ptr)
 
-#define foreach(name, iter) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
+#define foreach(name, iter) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
 
-#define foreach_r(name, iter) for( t_of_ptr(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = it_prev(iter, name))
+#define foreach_r(name, iter) for( it_type(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = it_prev(iter, name))
 
-#define foreach_skip(name, iter, by) for( t_of_ptr(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = neat_iter_skip(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[2], neat_last_##name, by))
+#define foreach_skip(name, iter, by) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = neat_iter_skip(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[2], neat_last_##name, by))
 
-#define foreach_skip_r(name, iter, by) for( t_of_ptr(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = neat_iter_skip_r(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[3], neat_last_##name, by))
+#define foreach_skip_r(name, iter, by) for( it_type(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = neat_iter_skip_r(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[3], neat_last_##name, by))
 
 typedef void*(*neat_generic_next_prev)(void*, void*);
 typedef void*(*neat_generic_begin_end)(void*);
