@@ -174,6 +174,11 @@ i = it_next(vec, i);
 i = it_prev(vec, i);
 i = it_end(vec);
 ```
+You also have access to ```it_type(vec)``` which returns the type of the iterator associated with the iterable:
+```C
+it_type(vec) i;
+```
+
 And you can also use foreach loops:
 ```C
 // loops from beginning to end. with iterator name it
