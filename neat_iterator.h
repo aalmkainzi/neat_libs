@@ -57,6 +57,14 @@
                 E *it_prev(T t, E *current);
                   Returns a pointer to the previous element of current
             
+            go_next:
+                void go_next(T t, E *current);
+                  Turns current into the next element
+            
+            go_prev:
+                  void go_prev(T t, E *current);
+                    Turns current into the previous element
+            
             it_type:
                 typeof(E*) it_type(T);
                   Returns the type of the iterator associated with 
@@ -101,6 +109,10 @@
 #define it_next(iterable, ptr) ((it_type(iterable) (*)(typeof(iterable)*, it_type(iterable) ))NEAT_GET_ITERS_OF(iterable)[2])(&iterable, ptr)
 
 #define it_prev(iterable, ptr) ((it_type(iterable) (*)(typeof(iterable)*, it_type(iterable) ))NEAT_GET_ITERS_OF(iterable)[3])(&iterable, ptr)
+
+#define go_next(iterable, ptr) (ptr = it_next(iterable, ptr)
+
+#define go_prev(iterable, ptr) (ptr = it_prev(iterable, ptr)
 
 #define foreach(name, iter) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
 
