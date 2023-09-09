@@ -57,6 +57,11 @@
                 E *it_prev(T t, E *current);
                   Returns a pointer to the previous element of current
             
+            it_type:
+                typeof(E*) it_type(T);
+                  Returns the type of the iterator associeated with 
+                  an iterable type
+            
         Loops:
             
             foreach(i, iterable) { ... }
