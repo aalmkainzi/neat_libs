@@ -114,13 +114,13 @@
 
 #define go_prev(iterable, ptr) (ptr = it_prev(iterable, ptr))
 
-#define foreach(name, iter) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = it_next(iter, name))
+#define foreach(name, iterable) for( it_type(iterable) name = it_begin(iterable), neat_last_##name = it_end(iterable); name != neat_last_##name ; name = it_next(iterable, name))
 
-#define foreach_r(name, iter) for( it_type(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = it_prev(iter, name))
+#define foreach_r(name, iterable) for( it_type(iterable) name = it_prev(iterable, it_end(iterable)), neat_last_##name = it_prev(iterable, it_begin(iterable)); name != neat_last_##name ; name = it_prev(iterable, name))
 
-#define foreach_skip(name, iter, by) for( it_type(iter) name = it_begin(iter), neat_last_##name = it_end(iter); name != neat_last_##name ; name = neat_iter_skip(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[2], neat_last_##name, by))
+#define foreach_skip(name, iterable, by) for( it_type(iterable) name = it_begin(iterable), neat_last_##name = it_end(iterable); name != neat_last_##name ; name = neat_iter_skip(&iterable, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iterable)[2], neat_last_##name, by))
 
-#define foreach_skip_r(name, iter, by) for( it_type(iter) name = it_prev(iter, it_end(iter)), neat_last_##name = it_prev(iter, it_begin(iter)); name != neat_last_##name ; name = neat_iter_skip_r(&iter, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iter)[3], neat_last_##name, by))
+#define foreach_skip_r(name, iterable, by) for( it_type(iterable) name = it_prev(iterable, it_end(iterable)), neat_last_##name = it_prev(iterable, it_begin(iterable)); name != neat_last_##name ; name = neat_iter_skip_r(&iterable, name, (neat_generic_next_prev) NEAT_GET_ITERS_OF(iterable)[3], neat_last_##name, by))
 
 typedef void*(*neat_generic_next_prev)(void*, void*);
 typedef void*(*neat_generic_begin_end)(void*);
