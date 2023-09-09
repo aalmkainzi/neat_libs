@@ -118,7 +118,6 @@ static inline void *neat_iter_skip(void *iter, void *current, neat_generic_next_
     return ret;
 }
 
-
 static inline void *neat_iter_skip_r(void *iter, void *current, neat_generic_next_prev prev, void *begin, int by)
 {
     void *ret = current;
