@@ -216,7 +216,7 @@ int *arr10_begin(Arr10 *a)
 
 int *arr10_end(Arr10 *a)
 {
-    return &a->data[9];
+    return &a->data[10];
 }
 
 int *arr10_next(Arr10 *a, int *current)
