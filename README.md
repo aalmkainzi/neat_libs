@@ -1,6 +1,6 @@
 
 # neat_libs
-A collection of header-only C libraries.
+A collection of header-only C libraries. Aimed at providing a neat API that's simple and easy-to-use
 - [neat_sort](#neat_sort)
 - [neat_iterator](#neat_iterator)
 
