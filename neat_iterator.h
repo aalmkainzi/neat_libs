@@ -13,7 +13,7 @@
                must have this prototype
                  E *begin(T*);
                  
-        end  : Function that returns a pointer to the past the last element,
+        end  : Function that returns a pointer to past the last element,
                must have this prototype
                  E *end(T*);
                  
