@@ -63,7 +63,7 @@
             
             go_prev:
                 void go_prev(T t, E *current);
-                    Turns current into the previous element
+                  Turns current into the previous element
             
             it_type:
                 typeof(E*) it_type(T);
