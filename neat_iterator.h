@@ -10,19 +10,19 @@
         T    : Type you want to be able to iterate over.
         
         begin: Function that returns a pointer to the first element,
-               must have this prototype
+               must be defined like:
                  E *begin(T*);
                  
         end  : Function that returns a pointer to past the last element,
-               must have this prototype
+               must be defined like:
                  E *end(T*);
                  
         next : Function that returns the next element of e,
-               must have this prototype
+               must be defined like:
                  E *next(T*, E* e);
                  
         prev : Function that returns the previous element of e,
-               must have this prototype
+               must be defined like:
                  E *prev(T*, E* e);
         
         
