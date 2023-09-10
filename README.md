@@ -215,26 +215,21 @@ typedef struct Arr10
     int data[10];
 } Arr10;
 
-int *arr10_begin(Arr10 *a)
-{
+int *arr10_begin(Arr10 *a) {
     return &a->data[0];
 }
 
-int *arr10_end(Arr10 *a)
-{
+int *arr10_end(Arr10 *a) {
     return &a->data[10];
 }
 
-int *arr10_next(Arr10 *a, int *current)
-{
-    size_t index = (size_t)(current - a->data);
-    return &(a->data[index + 1]);
+int *arr10_next(Arr10 *a, int *current) {
+    return current + 1;
 }
 
 int *arr10_prev(Arr10 *a, int *current)
 {
-    size_t index = (size_t)(current - a->data);
-    return &(a->data[index - 1]);
+    return current - 1;
 }
 
 int main()
