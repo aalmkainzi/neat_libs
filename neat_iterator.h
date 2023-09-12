@@ -147,7 +147,6 @@
 
 
 
-
 #define ADD_ITERATOR(iterable_type, begin, end, next, prev) iterable_type: (typeof(begin(0))(*[])(iterable_type*)){(t_of_begin(begin, iterable_type))begin, (t_of_begin(begin, iterable_type))end, (t_of_begin(begin, iterable_type))next, (t_of_begin(begin, iterable_type))prev}
 
 #define t_of_begin(b, it) typeof(b(0))(*)(it*)
