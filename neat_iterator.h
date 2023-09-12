@@ -36,6 +36,9 @@
             
             #include "neat_iterator.h"
         
+        You can also define ITERABLE_TYPES2 and ITERABLE_TYPES3
+        before including.
+        
         From here on out I'll refer to an iterable type with T 
         and will assume it has all 4 functions.
         
@@ -94,11 +97,62 @@
 #ifndef NEAT_ITERATOR_H
 #define NEAT_ITERATOR_H
 
+
+
+#if defined(ITERABLE_TYPES) && defined(ITERABLE_TYPES2) && defined(ITERABLE_TYPES3)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES, \
+    ITERABLE_TYPES2, \
+    ITERABLE_TYPES3
+
+#elif defined(ITERABLE_TYPES) && defined(ITERABLE_TYPES2)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES, \
+    ITERABLE_TYPES2
+
+#elif defined(ITERABLE_TYPES) && defined(ITERABLE_TYPES3)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES, \
+    ITERABLE_TYPES3
+
+#elif defined(ITERABLE_TYPES)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES
+
+#elif defined(ITERABLE_TYPES2) && defined(ITERABLE_TYPES3) // by now ITERABLE_TYPES is out of the picture, user didnt define it.
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES2, \
+    ITERABLE_TYPES3
+
+#elif defined(ITERABLE_TYPES2)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES2
+
+#elif defined(ITERABLE_TYPES3)
+
+    #define NEAT_USER_ITERABLE_TYPES \
+    ITERABLE_TYPES3
+
+#else // user didn't define any iterable type
+
+    #define NEAT_USER_ITERABLE_TYPES
+
+#endif // User's ITERABLE_TYPEs
+
+
+
+
 #define ADD_ITERATOR(iterable_type, begin, end, next, prev) iterable_type: (typeof(begin(0))(*[])(iterable_type*)){(t_of_begin(begin, iterable_type))begin, (t_of_begin(begin, iterable_type))end, (t_of_begin(begin, iterable_type))next, (t_of_begin(begin, iterable_type))prev}
 
 #define t_of_begin(b, it) typeof(b(0))(*)(it*)
 
-#define NEAT_GET_ITERS_OF(iterable_type) _Generic(iterable_type, ITERABLE_TYPES)
+#define NEAT_GET_ITERS_OF(iterable_type) _Generic(iterable_type, NEAT_USER_ITERABLE_TYPES)
 
 #define it_type(t) typeof(NEAT_GET_ITERS_OF(t)[0](0))
 

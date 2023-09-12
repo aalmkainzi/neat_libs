@@ -37,12 +37,9 @@
         
         make sure to only put commas *between* the ADD_SORTABLE calls.
         
-        If you want to add more sortable types even after defining
-        this macro, you can define SORTABLE_TYPES2 and SORTABLE_TYPES3
-        (for example you header defines its own SORTABLE_TYPES, but your
-        .c wants to define its own sortables as well)
+        You can also define SORTABLE_TYPES2 and SORTABLE_TYPES3.
         
-        From here on out I'll refer to a sortable type by S
+        From here on out I'll refer to a sortable type by S.
         
         Functions (actually macros):
             
