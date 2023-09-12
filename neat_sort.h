@@ -37,6 +37,11 @@
         
         make sure to only put commas *between* the ADD_SORTABLE calls.
         
+        If you want to add more sortable types even after defining
+        this macro, you can define SORTABLE_TYPES2 and SORTABLE_TYPES3
+        (for example you header defines its own SORTABLE_TYPES, but your
+        .c wants to define its own sortables as well)
+        
         From here on out I'll refer to a sortable type by S
         
         Functions (actually macros):
@@ -102,18 +107,62 @@ ADD_SORTABLE(float,    neat_float_cmp), \
 ADD_SORTABLE(double,   neat_double_cmp), \
 ADD_SORTABLE(char*,    neat_str_cmp)
 
-#ifdef SORTABLE_TYPES
+#if defined(SORTABLE_TYPES) && defined(SORTABLE_TYPES2) && defined(SORTABLE_TYPES3)
     
-    #define ALL_SORTABLE_TYPES \
-    DEFAULT_SORTABLE_TYPES, \
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES, \
+    SORTABLE_TYPES2, \
+    SORTABLE_TYPES3
+
+#elif defined(SORTABLE_TYPES) && defined(SORTABLE_TYPES2)
+    
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES, \
+    SORTABLE_TYPES2
+    
+#elif defined(SORTABLE_TYPES) && defined(SORTABLE_TYPES3)
+    
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES, \
+    SORTABLE_TYPES3
+    
+#elif defined(SORTABLE_TYPES)
+    
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
     SORTABLE_TYPES
     
-#else // SORTABLE_TYPES
+#elif defined(SORTABLE_TYPES2) && defined(SORTABLE_TYPES3) // by now SORTABLE_TYPES is out of the picture, user didnt define it.
     
-    #define ALL_SORTABLE_TYPES \
-    DEFAULT_SORTABLE_TYPES
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES2, \
+    SORTABLE_TYPES3
     
-#endif // SORTABLE_TYPES
+#elif defined(SORTABLE_TYPES2)
+    
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES2
+    
+#elif defined(SORTABLE_TYPES3)
+    
+    #define NEAT_USER_SORTABLE_TYPES \
+    , \
+    SORTABLE_TYPES3
+    
+#else // user didn't define any sortable type
+    
+    #define NEAT_USER_SORTABLE_TYPES
+    
+#endif // User's SORTABLE_TYPEs
+
+#define ALL_SORTABLE_TYPES \
+DEFAULT_SORTABLE_TYPES \
+NEAT_USER_SORTABLE_TYPES
 
 typedef int (*cmp_func)(const void*, const void*);
 
