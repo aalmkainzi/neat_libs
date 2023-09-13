@@ -196,33 +196,34 @@ type: parse
 
 
 #define NEAT_DEFAULT_STRINGABLE_TYPES \
-ADD_STRINGABLE(char,     neat_char2str), \
-ADD_STRINGABLE(char*,    neat_str2str), \
-ADD_STRINGABLE(bool,     neat_bool2str), \
-ADD_STRINGABLE(int8_t,   neat_int8_t2str), \
-ADD_STRINGABLE(int16_t,  neat_int16_t2str), \
-ADD_STRINGABLE(int32_t,  neat_int32_t2str), \
-ADD_STRINGABLE(long long,  neat_int64_t2str), \
-ADD_STRINGABLE(int64_t,  neat_int64_t2str), \
-ADD_STRINGABLE(uint8_t,  neat_uint8_t2str), \
-ADD_STRINGABLE(uint16_t, neat_uint16_t2str), \
-ADD_STRINGABLE(uint32_t, neat_uint32_t2str), \
-ADD_STRINGABLE(unsigned long long, neat_uint64_t2str), \
-ADD_STRINGABLE(uint64_t, neat_uint64_t2str)
+ADD_STRINGABLE(char,      neat_char2str), \
+ADD_STRINGABLE(char*,     neat_str2str), \
+ADD_STRINGABLE(bool,      neat_bool2str), \
+ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
+ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
+ADD_STRINGABLE(int32_t,   neat_int32_t2str), \
+ADD_STRINGABLE(long long, neat_int64_t2str), \
+ADD_STRINGABLE(int64_t,   neat_int64_t2str), \
+ADD_STRINGABLE(uint8_t,   neat_uint8_t2str), \
+ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
+ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
+ADD_STRINGABLE(unsigned   long long, neat_uint64_t2str), \
+ADD_STRINGABLE(uint64_t,  neat_uint64_t2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
-ADD_PARSABLE(char,     neat_parse_char), \
-ADD_PARSABLE(char*,    neat_parse_str), \
-ADD_PARSABLE(int8_t,   neat_parse_int8_t), \
-ADD_PARSABLE(int16_t,  neat_parse_int16_t), \
-ADD_PARSABLE(int32_t,  neat_parse_int32_t), \
-ADD_PARSABLE(long long,  neat_parse_int64_t), \
-ADD_PARSABLE(int64_t,  neat_parse_int64_t), \
-ADD_PARSABLE(uint8_t,  neat_parse_uint8_t), \
-ADD_PARSABLE(uint16_t, neat_parse_uint16_t), \
-ADD_PARSABLE(uint32_t, neat_parse_uint32_t), \
-ADD_PARSABLE(unsigned long long, neat_parse_uint64_t), \
-ADD_PARSABLE(uint64_t, neat_parse_uint64_t)
+ADD_PARSABLE(char,      neat_parse_char), \
+ADD_PARSABLE(char*,     neat_parse_str), \
+ADD_PARSABLE(bool,      neat_parse_bool), \
+ADD_PARSABLE(int8_t,    neat_parse_int8_t), \
+ADD_PARSABLE(int16_t,   neat_parse_int16_t), \
+ADD_PARSABLE(int32_t,   neat_parse_int32_t), \
+ADD_PARSABLE(long long, neat_parse_int64_t), \
+ADD_PARSABLE(int64_t,   neat_parse_int64_t), \
+ADD_PARSABLE(uint8_t,   neat_parse_uint8_t), \
+ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
+ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
+ADD_PARSABLE(unsigned   long long, neat_parse_uint64_t), \
+ADD_PARSABLE(uint64_t,  neat_parse_uint64_t)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
 NEAT_DEFAULT_STRINGABLE_TYPES \
@@ -295,7 +296,7 @@ char *neat_uint64_t2str(uint64_t obj);
 
 char neat_parse_char(char *str, int *err);
 char *neat_parse_str(char *str, int *err);
-// bool neat_parse_bool(char *str, int *err); // let's not parse bool. Maybe user wants T or TRUE instead of true. Let user make his parse_bool func
+bool neat_parse_bool(char *str, int *err); // should I parse bool? Maybe user wants T or TRUE instead of true. Let user make his parse_bool func?
 int8_t neat_parse_int8_t(char *str, int *err);
 int16_t neat_parse_int16_t(char *str, int *err);
 int32_t neat_parse_int32_t(char *str, int *err);
@@ -400,6 +401,23 @@ char neat_parse_char(char *str, int *err) {
 char *neat_parse_str(char *str, int *err) {
     *err = 0;
     return str;
+}
+
+bool neat_parse_bool(char *str, int *err) {
+    size_t len = strlen(str);
+    *err = 0;
+    if(len < 4) {
+        *err = -1;
+        return false;
+    }
+    if(strncmp(str, "true", 4) == 0) {
+        return true;
+    }
+    else if(strncmp(str, "false", 5) == 0) {
+        return false;
+    }
+    *err = -1;
+    return false;
 }
 
 int8_t neat_parse_int8_t(char *str, int *err) {
