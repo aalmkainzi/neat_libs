@@ -274,7 +274,7 @@ do { \
 } while(0)
 
 #define parse(type, str, ...) \
-_Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[]){ &(int){0} , ##__VA_ARGS__ }[ !neat_is_empty(d,__VA_ARGS__) ])
+_Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_ARGS__ }[ !neat_is_empty(d,__VA_ARGS__) ])
 
 // 2str functions declarations
 
