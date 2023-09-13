@@ -165,7 +165,7 @@ typedef int (*cmp_func)(const void*, const void*);
 
 #define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
 
-#define GET_CMP_FOR(type) ((cmp_func) _Generic(type, ALL_SORTABLE_TYPES))
+#define GET_CMP_FOR(type) ((cmp_func) _Generic((typeof(type)){0}, ALL_SORTABLE_TYPES))
 
 #define SORT_PTR(arr, n) qsort(arr, n, sizeof(*arr), GET_CMP_FOR(*arr))
 
