@@ -296,7 +296,7 @@ ADD_PARSABLE(C, parse_c)
 #include "neat_tostr.h"
 ```
 
-code example:
+### code example:
 ```C
 #define STRINGABLE_TYPES \
 ADD_STRINGABLE(A, a2str), \
