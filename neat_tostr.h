@@ -202,10 +202,12 @@ ADD_STRINGABLE(bool,     neat_bool2str), \
 ADD_STRINGABLE(int8_t,   neat_int8_t2str), \
 ADD_STRINGABLE(int16_t,  neat_int16_t2str), \
 ADD_STRINGABLE(int32_t,  neat_int32_t2str), \
+ADD_STRINGABLE(long long,  neat_int64_t2str), \
 ADD_STRINGABLE(int64_t,  neat_int64_t2str), \
 ADD_STRINGABLE(uint8_t,  neat_uint8_t2str), \
 ADD_STRINGABLE(uint16_t, neat_uint16_t2str), \
 ADD_STRINGABLE(uint32_t, neat_uint32_t2str), \
+ADD_STRINGABLE(unsigned long long, neat_uint64_t2str), \
 ADD_STRINGABLE(uint64_t, neat_uint64_t2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
@@ -214,10 +216,12 @@ ADD_PARSABLE(char*,    neat_parse_str), \
 ADD_PARSABLE(int8_t,   neat_parse_int8_t), \
 ADD_PARSABLE(int16_t,  neat_parse_int16_t), \
 ADD_PARSABLE(int32_t,  neat_parse_int32_t), \
+ADD_PARSABLE(long long,  neat_parse_int64_t), \
 ADD_PARSABLE(int64_t,  neat_parse_int64_t), \
 ADD_PARSABLE(uint8_t,  neat_parse_uint8_t), \
 ADD_PARSABLE(uint16_t, neat_parse_uint16_t), \
 ADD_PARSABLE(uint32_t, neat_parse_uint32_t), \
+ADD_PARSABLE(unsigned long long, neat_parse_uint64_t), \
 ADD_PARSABLE(uint64_t, neat_parse_uint64_t)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
