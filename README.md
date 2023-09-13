@@ -243,4 +243,97 @@ int main()
 }
 ```
 ## neat_tostr
-A library for converting variables to string and parsing from string.
+A library for converting to string and parsing from string. By default it has parse/to_string support for all integer types, char, bool, and string. Additional types can easily be added
+
+### API
+Before including the library, you must define ```NEAT_TOSTR_IMPLEMENTATION``` once in your project.
+
+To convert to string:
+```C
+#define NEAT_TOSTR_IMPLEMENTATION
+#include "neat_tostr.h"
+
+int main()
+{
+    int x = 500;
+    char *str = to_string(x);
+}
+```
+
+and to parse from string:
+```C
+void f(char *str)
+{
+    int y = parse(int, str);
+}
+```
+
+To add a stringable type you do:
+```C
+#define STRINGABLE_TYPES ADD_STRINGABLE(S, s2str)
+
+#include "neat_tostr.h"
+```
+
+And to add a parsable type:
+```C
+#define PARSABLE_TYPES ADD_PARSABLE(S, parse_s)
+
+#include "neat_tostr.h"
+```
+You can add as many stringable/parsable types as you want:
+```C
+#define STRINGABLE_TYPES \
+ADD_STRINGABLE(A, a2str), \
+ADD_STRINGABLE(B, b2str), \
+ADD_STRINGABLE(C, c2str)
+
+#define PARSABLE_TYPES \
+ADD_PARSABLE(A, parse_a), \
+ADD_PARSABLE(B, parse_b), \
+ADD_PARSABLE(C, parse_c)
+
+#include "neat_tostr.h"
+```
+
+code example:
+```C
+#define STRINGABLE_TYPES \
+ADD_STRINGABLE(A, a2str), \
+ADD_STRINGABLE(B, b2str), \
+ADD_STRINGABLE(C, c2str)
+
+#define NEAT_TOSTR_IMPLEMENTATION
+#include "neat_tostr.h"
+
+typedef struct A { long long l; } A;
+
+typedef struct B { char c; } B;
+
+typedef struct C { int i;  } C;
+
+char *a2str(A a);
+char *b2str(B b);
+char *c2str(C c);
+
+char *c2str(C c) { return to_string(c.i); }
+
+char *a2str(A a) { return to_string(a.l); }
+
+char *b2str(B b) { return to_string(b.c); }
+
+int main()
+{
+    char *a_str = to_string( (A){500} );
+    char *b_str = to_string( (B){'a'} );
+    char *c_str = to_string( (C){100} );
+    
+    A a_arr[100];
+    char *arr_str;
+    
+    array_to_string(a_arr, 100, arr_str);
+    
+    puts(arr_str);
+}
+
+```
