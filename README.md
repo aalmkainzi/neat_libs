@@ -259,7 +259,16 @@ int main()
     char *str = to_string(x);
 }
 ```
+You can also turn an array into a string:
+```C
+int main()
+{
+    int arr[10];
+    char *str;
 
+    array_to_string(arr, 10, str);
+}
+```
 and to parse from string:
 ```C
 void f(char *str)
