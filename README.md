@@ -275,9 +275,12 @@ int main()
 ```
 and to parse from string:
 ```C
-void f(char *str)
+void f(char *num_str)
 {
-    int y = parse(int, str);
+    int y = parse(int, num_str);
+    // or
+    int err;
+    int z = parse(int, num_str, &err);
 }
 ```
 
@@ -287,12 +290,21 @@ To add a stringable type you do:
 
 #include "neat_tostr.h"
 ```
+Where the function ```s2str``` is in this format:
+```C
+char *s2str(S);
+```
+The string it retuns must be a ```malloc```ed string
 
 And to add a parsable type:
 ```C
 #define PARSABLE_TYPES ADD_PARSABLE(S, parse_s)
 
 #include "neat_tostr.h"
+```
+Where the function ```parse_s``` must be in this format:
+```C
+S parse_s(char *str, int *err);
 ```
 You can add as many stringable/parsable types as you want:
 ```C
