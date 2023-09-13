@@ -3,6 +3,7 @@
 A collection of header-only C libraries. Aimed at providing a neat API that's simple and easy-to-use
 - [neat_sort](#neat_sort)
 - [neat_iterator](#neat_iterator)
+- [neat_tostr](#neat_tostr)
 
 ## neat_sort
 A simple API for sorting and searching in C. By default it has sorting for all the main numeric types, also strings. Additional types can be added by user of the library.
@@ -241,3 +242,5 @@ int main()
     }
 }
 ```
+## neat_tostr
+A library for converting variables to string and parsing from string.
