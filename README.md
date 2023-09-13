@@ -216,15 +216,18 @@ typedef struct Arr10
     int data[10];
 } Arr10;
 
-int *arr10_begin(Arr10 *a) {
+int *arr10_begin(Arr10 *a)
+{
     return &a->data[0];
 }
 
-int *arr10_end(Arr10 *a) {
+int *arr10_end(Arr10 *a)
+{
     return &a->data[10];
 }
 
-int *arr10_next(Arr10 *a, int *current) {
+int *arr10_next(Arr10 *a, int *current)
+{
     return current + 1;
 }
 
