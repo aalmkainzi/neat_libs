@@ -257,6 +257,8 @@ int main()
 {
     int x = 500;
     char *str = to_string(x);
+
+    free(str);
 }
 ```
 You can also turn an array into a string:
@@ -267,6 +269,8 @@ int main()
     char *str;
 
     array_to_string(arr, 10, str);
+
+    free(str);
 }
 ```
 and to parse from string:
@@ -343,6 +347,11 @@ int main()
     array_to_string(a_arr, 100, arr_str);
     
     puts(arr_str);
+
+    free(a_str);
+    free(b_str);
+    free(c_str);
+    free(arr_str);
 }
 
 ```
