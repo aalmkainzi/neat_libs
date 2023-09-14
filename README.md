@@ -269,9 +269,7 @@ You can also turn an array into a string:
 int main()
 {
     int arr[10];
-    char *str;
-
-    array_to_string(arr, 10, str);
+    char *str = array_to_string(arr, 10);
 
     free(str);
 }
