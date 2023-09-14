@@ -28,9 +28,9 @@
         
         You can add as many iterable types as you want:
             #define ITERABLE_TYPES \
-            ADD_ITERATOR(T, t_begin, t_end, t_next, t_prev), \
+            ADD_ITERATOR(T,  t_begin,  t_end,  t_next,  t_prev), \
             ADD_ITERATOR(T2, t2_begin, t2_end, t2_next, t2_prev), \
-            ADD_ITERATOR(T3, t3_begin, t3_end, t3_next, NULL)
+            ADD_ITERATOR(T3, t3_begin, t3_end, t3_next, t3_prev)
             
             #include "neat_iterator.h"
         
