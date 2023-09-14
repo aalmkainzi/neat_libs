@@ -342,11 +342,11 @@ char *a2str(A a);
 char *b2str(B b);
 char *c2str(C c);
 
-char *c2str(C c) { return to_string(c.i); }
+char *c2str(C *c) { return to_string(c->i); }
 
-char *a2str(A a) { return to_string(a.l); }
+char *a2str(A *a) { return to_string(a->l); }
 
-char *b2str(B b) { return to_string(b.c); }
+char *b2str(B *b) { return to_string(b->c); }
 
 int main()
 {
