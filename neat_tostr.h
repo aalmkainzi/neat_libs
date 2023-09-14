@@ -17,7 +17,7 @@
         
         T2str must be a function with this prototype:
             
-            char *T2str(T);
+            char *T2str(T*);
             
         And it should return a 'malloc'ed string.
         
@@ -57,9 +57,9 @@
                   Returns a 'malloc'ed string representation of s.
                  
             array_to_string:
-                void array_to_string(S* s, n, str);
-                  Makes a string from the array s of size n,
-                  and stores it into str.
+                char* array_to_string(S* s, n);
+                  Returns a 'malloc'ed string from the array s 
+                  of size n,
                  
             parse:
                 S parse(S, char *str);
@@ -236,61 +236,31 @@ NEAT_USER_PARSABLE_TYPES
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
 #define to_string(obj) \
-_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)(obj)
+_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)){obj} )
 
-// make sure to allocate enough for '{' '}' and the ", "s
-#define neat_combine_strings(strings, n, str_out) \
-do { \
-    size_t final_str_len = 1; \
-    for(int i = 0 ; i < n ; i++) { \
-        final_str_len += strlen(strings[i]) + 2; \
-    } \
-    str_out = malloc(final_str_len * sizeof(char) ); \
-    str_out[0] = '{'; \
-    for(int i = 0 ; i < n - 1; i++) { \
-        strcat(str_out, strings[i]); \
-        strcat(str_out, ", "); \
-    } \
-    strcat(str_out, strings[n - 1]); \
-    str_out[final_str_len - 2] = '}'; \
-} while(0)
-
-#define array_to_string(arr, n, str_out) \
-do { \
-    if(n <= 0) { \
-        str_out = malloc(3 * sizeof(char)); \
-        memcpy(str_out, "{}", 3); \
-    } \
-    else { \
-        char **strings = malloc(n * sizeof(char*)); \
-        for(int i = 0 ; i < n ; i++) { \
-            strings[i] = to_string(arr[i]); \
-        } \
-        neat_combine_strings(strings, n, str_out); \
-        for(int i = 0 ; i < n ; i++) \
-            free(strings[i]); \
-        free(strings); \
-    } \
-} while(0)
+#define array_to_string(arr, n) \
+neat_array_to_string(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
 
 #define parse(type, str, ...) \
 _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_ARGS__ }[ !neat_is_empty(d,__VA_ARGS__) ])
 
+char *neat_array_to_string(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
+
 // 2str functions declarations
 
-char *neat_char2str(char obj);
-char *neat_str2str(char *obj);
-char *neat_bool2str(bool obj);
-char *neat_int8_t2str(int8_t obj);
-char *neat_int16_t2str(int16_t obj);
-char *neat_int32_t2str(int32_t obj);
-char *neat_int64_t2str(int64_t obj);
-char *neat_uint8_t2str(uint8_t obj);
-char *neat_uint16_t2str(uint16_t obj);
-char *neat_uint32_t2str(uint32_t obj);
-char *neat_uint64_t2str(uint64_t obj);
-// char *neat_float2str(float obj);
-// char *neat_double2str(double obj);
+char *neat_char2str(char *obj);
+char *neat_str2str(char **obj);
+char *neat_bool2str(bool *obj);
+char *neat_int8_t2str(int8_t *obj);
+char *neat_int16_t2str(int16_t *obj);
+char *neat_int32_t2str(int32_t *obj);
+char *neat_int64_t2str(int64_t *obj);
+char *neat_uint8_t2str(uint8_t *obj);
+char *neat_uint16_t2str(uint16_t *obj);
+char *neat_uint32_t2str(uint32_t *obj);
+char *neat_uint64_t2str(uint64_t *obj);
+// char *neat_float2str(float *obj);
+// char *neat_double2str(double *obj);
 
 // parse functions declarations
 
@@ -312,84 +282,119 @@ uint64_t neat_parse_uint64_t(char *str, int *err);
 
 #ifdef NEAT_TOSTR_IMPLEMENTATION
 
+char *neat_array_to_string(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
+{
+    if(len == 0)
+    {
+        char *ret = malloc(3 * sizeof(char));
+        memcpy(ret, "{}", 3);
+        return ret;
+    }
+    
+    const uint8_t *u8arr = arr;
+    
+    char **strings = malloc(len * sizeof(char*));
+    for(size_t i = 0 ; i < len ; i++)
+    {
+        strings[i] = tostr(u8arr + (i * elm_size));
+    }
+    
+    char *ret = NULL;
+    
+    size_t final_str_len = 1;
+    for(size_t i = 0 ; i < len ; i++) {
+        final_str_len += strlen(strings[i]) + 2;
+    }
+    ret = malloc(final_str_len * sizeof(char) );
+    ret[0] = '{';
+    for(size_t i = 0 ; i < len - 1; i++) {
+        strcat(ret, strings[i]);
+        strcat(ret, ", ");
+    }
+    strcat(ret, strings[len - 1]);
+    ret[final_str_len - 2] = '}';
+    
+    return ret;
+}
+
 // 2str functions definitions
 
-char *neat_char2str(char obj) {
+char *neat_char2str(char *obj) {
     char *ret = malloc(2 * sizeof(char));
-    ret[0] = obj;
+    ret[0] = *obj;
     ret[1] = 0;
     return ret;
 }
 
-char *neat_str2str(char *obj) {
-    size_t len = strlen(obj);
+char *neat_str2str(char **obj) {
+    size_t len = strlen(*obj);
     char *ret = malloc(len + 1);
-    memcpy(ret, obj, len + 1);
+    memcpy(ret, *obj, len + 1);
     return ret;
 }
 
-char *neat_bool2str(bool obj) {
+char *neat_bool2str(bool *obj) {
     char *ret = malloc(6 * sizeof(char));
     memcpy(ret, "false", 6);
-    if(obj) memcpy(ret, "true", 5);
+    if(*obj) memcpy(ret, "true", 5);
     return ret;
 }
 
-char *neat_int8_t2str(int8_t obj) {
+char *neat_int8_t2str(int8_t *obj) {
     char *ret = malloc(5 * sizeof(char));
-    sprintf(ret, "%d", obj);
+    sprintf(ret, "%d", *obj);
     return ret;
 }
 
-char *neat_int16_t2str(int16_t obj) {
+char *neat_int16_t2str(int16_t *obj) {
     char *ret = malloc(7 * sizeof(char));
-    sprintf(ret, "%d", obj);
+    sprintf(ret, "%d", *obj);
     return ret;
 }
 
-char *neat_int32_t2str(int32_t obj) {
+char *neat_int32_t2str(int32_t *obj) {
     char *ret = malloc(12 * sizeof(char));
-    sprintf(ret, "%d", obj);
+    sprintf(ret, "%d", *obj);
     return ret;
 }
 
-char *neat_int64_t2str(int64_t obj) {
+char *neat_int64_t2str(int64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%lld", obj);
+    sprintf(ret, "%lld", *obj);
     return ret;
 }
 
-char *neat_uint8_t2str(uint8_t obj) {
+char *neat_uint8_t2str(uint8_t *obj) {
     char *ret = malloc(4 * sizeof(char));
-    sprintf(ret, "%hhu", obj);
+    sprintf(ret, "%hhu", *obj);
     return ret;
 }
 
-char *neat_uint16_t2str(uint16_t obj) {
+char *neat_uint16_t2str(uint16_t *obj) {
     char *ret = malloc(6 * sizeof(char));
-    sprintf(ret, "%hu", obj);
+    sprintf(ret, "%hu", *obj);
     return ret;
 }
 
-char *neat_uint32_t2str(uint32_t obj) {
+char *neat_uint32_t2str(uint32_t *obj) {
     char *ret = malloc(12 * sizeof(char));
-    sprintf(ret, "%u", obj);
+    sprintf(ret, "%u", *obj);
     return ret;
 }
 
-char *neat_uint64_t2str(uint64_t obj) {
+char *neat_uint64_t2str(uint64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%llu", obj);
+    sprintf(ret, "%llu", *obj);
     return ret;
 }
 
-// char *neat_float2str(float obj)
+// char *neat_float2str(float *obj)
 // {
 //     int max_digits = 3 + DBL_MANT_DIG - DBL_MIN_EXP;
 //     char *ret = malloc(max_digits * sizeof(char));
 // }
 // 
-// char *neat_double2str(double obj);
+// char *neat_double2str(double *obj);
 
 // parse functions definitions
 
