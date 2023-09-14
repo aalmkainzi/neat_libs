@@ -355,9 +355,7 @@ int main()
     char *c_str = to_string( (C){100} );
     
     A a_arr[100];
-    char *arr_str;
-    
-    array_to_string(a_arr, 100, arr_str);
+    char *arr_str = array_to_string(a_arr, 100);
     
     puts(arr_str);
 
