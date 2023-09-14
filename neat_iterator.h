@@ -26,8 +26,6 @@
                  E *prev(T*, E* e);
         
         
-        Any of those can be NULL if you don't plan to use them.
-        
         You can add as many iterable types as you want:
             #define ITERABLE_TYPES \
             ADD_ITERATOR(T, t_begin, t_end, t_next, t_prev), \
