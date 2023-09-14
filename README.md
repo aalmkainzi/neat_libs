@@ -293,7 +293,7 @@ To add a stringable type you do:
 ```
 Where the function ```s2str``` is in this format:
 ```C
-char *s2str(S);
+char *s2str(S*);
 ```
 The string it retuns must be a ```malloc```ed string
 
