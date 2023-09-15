@@ -85,7 +85,7 @@
                   array s with length n.
                   
             fprint_array:
-                void print_array(FILE* f, S* s, int n);
+                void fprint_array(FILE* f, S* s, int n);
                   Prints to f the string representation of the
                   array s with length n.
                   
