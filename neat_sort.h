@@ -82,7 +82,7 @@
                   Returns a pointer to it if found, NULL otherwise.
                   
             GET_CMP:
-                int(*)(S*,S*) GET_CMP(type);
+                int(*)(S*,S*) GET_CMP(S);
                   Returns the compare function associated with the
                   type.
 */
