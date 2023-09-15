@@ -68,7 +68,17 @@
             fprint:
                 void fprint(FILE* f, S s);
                   Prints to f the string representation of s.
+                
+            println:
+                void println(S s);
+                  Prints to stdout the string representation of s,
+                  with '\n' after it.
                   
+            fprintln:
+                void fprintln(FILE* f, S s);
+                  Prints to f the string representation of s,
+                  with '\n' after it.
+                
             print_array:
                 void print_array(S* s, int n);
                   Prints to stdout the string representation of the
@@ -78,6 +88,16 @@
                 void print_array(FILE* f, S* s, int n);
                   Prints to f the string representation of the
                   array s with length n.
+                  
+            println_array:
+                void println_array(S* s, int n);
+                  Prints to stdout the string representation of the
+                  array s with length n, with '\n' after it.
+                  
+            fprintln_array:
+                void fprintln_array(FILE* f, S* s, int n);
+                  Prints to f the string representation of the
+                  array s with length n, with '\n' after it.
                   
             parse:
                 S parse(S, char *str);
@@ -270,6 +290,14 @@ free(neat_str); \
 
 #define neat_print(obj) neat_fprint(stdout, obj)
 
+#define neat_fprintln(file, obj) do { \
+char *neat_str = neat_to_string(obj); \
+fprintf(file, "%s\n", neat_str); \
+free(neat_str); \
+} while(0)
+
+#define neat_println(obj) neat_fprintln(stdout, obj)
+
 #define neat_fprint_array(file, arr, n) do { \
 char *neat_str = neat_array_to_string(arr, n); \
 fprintf(file, "%s", neat_str); \
@@ -277,6 +305,14 @@ free(neat_str); \
 } while(0)
 
 #define neat_print_array(arr, n) neat_fprint_array(stdout, arr, n)
+
+#define neat_fprintln_array(file, arr, n) do { \
+char *neat_str = neat_array_to_string(arr, n); \
+fprintf(file, "%s\n", neat_str); \
+free(neat_str); \
+} while(0)
+
+#define neat_println_array(arr, n) neat_fprintln_array(stdout, arr, n)
 
 #define neat_parse(type, str, ...) \
 _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_ARGS__ }[ !neat_is_empty(d,__VA_ARGS__) ])
@@ -288,8 +324,12 @@ _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_
     #define array_to_string neat_array_to_string
     #define print neat_print
     #define fprint neat_fprint
+    #define println neat_println
+    #define fprintln neat_fprintln
     #define print_array neat_print_array
     #define fprint_array neat_fprint_array
+    #define println_array neat_println_array
+    #define fprintln_array neat_fprintln_array
     #define parse neat_parse
 #endif
 
