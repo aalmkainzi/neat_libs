@@ -248,7 +248,7 @@ Additional types can easily be added
 ### API
 Before including the library, you must define ```NEAT_TOSTR_IMPLEMENTATION``` once in your project.
 
-#### converting to string
+#### Converting to string
 To convert to string:
 ```C
 #define NEAT_TOSTR_IMPLEMENTATION
@@ -306,7 +306,7 @@ char *s2str(S*);
 The string it retuns must be a ```malloc```ed string
 
 #### Parsing
-On top of type to string conversion, this library also has parsing from string to your types.
+On top of type-to-string conversion, this library also has parsing from string to your types.
 
 To parse from string:
 ```C
