@@ -193,11 +193,11 @@ REVERSE_ARRAY_PTR(arr, n); \
 
 #define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
 
-#define BSEARCH_PTR(arr, n, key) bsearch (&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr)) \
+#define BSEARCH_PTR(arr, n, key)  (typeof(*arr)*) bsearch (&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr)) \
 
 #define BSEARCH(arr, key) BSEARCH_PTR(arr, ARR_LEN(arr), key)
 
-#define SEARCH_PTR(arr, n, key) neat_search(&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr))
+#define SEARCH_PTR(arr, n, key) (typeof(*arr)*) neat_search(&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr))
 
 #define SEARCH(arr, key) SEARCH_PTR(arr, ARR_LEN(arr), key)
 
