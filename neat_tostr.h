@@ -257,7 +257,7 @@ NEAT_USER_PARSABLE_TYPES
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
 #define neat_to_string(obj) \
-_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)){obj} )
+_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] )
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
