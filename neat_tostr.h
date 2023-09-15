@@ -258,8 +258,10 @@ NEAT_ADD_STRINGABLE(int64_t,   neat_int64_t2str), \
 NEAT_ADD_STRINGABLE(uint8_t,   neat_uint8_t2str), \
 NEAT_ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
 NEAT_ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
-NEAT_ADD_STRINGABLE(unsigned   long long, neat_uint64_t2str), \
-NEAT_ADD_STRINGABLE(uint64_t,  neat_uint64_t2str)
+NEAT_ADD_STRINGABLE(uint64_t,  neat_uint64_t2str), \
+NEAT_ADD_STRINGABLE(float,     neat_float2str), \
+NEAT_ADD_STRINGABLE(double,    neat_double2str), \
+NEAT_ADD_STRINGABLE(unsigned long long, neat_uint64_t2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
 NEAT_ADD_PARSABLE(char,      neat_parse_char), \
@@ -273,8 +275,10 @@ NEAT_ADD_PARSABLE(int64_t,   neat_parse_int64_t), \
 NEAT_ADD_PARSABLE(uint8_t,   neat_parse_uint8_t), \
 NEAT_ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
 NEAT_ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
-NEAT_ADD_PARSABLE(unsigned   long long, neat_parse_uint64_t), \
-NEAT_ADD_PARSABLE(uint64_t,  neat_parse_uint64_t)
+NEAT_ADD_PARSABLE(uint64_t,  neat_parse_uint64_t), \
+NEAT_ADD_PARSABLE(float,     neat_parse_float), \
+NEAT_ADD_PARSABLE(double,    neat_parse_double), \
+NEAT_ADD_PARSABLE(unsigned long long, neat_parse_uint64_t)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
 NEAT_DEFAULT_STRINGABLE_TYPES \
@@ -366,8 +370,8 @@ char *neat_uint8_t2str(uint8_t *obj);
 char *neat_uint16_t2str(uint16_t *obj);
 char *neat_uint32_t2str(uint32_t *obj);
 char *neat_uint64_t2str(uint64_t *obj);
-// char *neat_float2str(float *obj);
-// char *neat_double2str(double *obj);
+char *neat_float2str(float *obj);
+char *neat_double2str(double *obj);
 
 // parse functions declarations
 
@@ -382,8 +386,8 @@ uint8_t neat_parse_uint8_t(char *str, int *err);
 uint16_t neat_parse_uint16_t(char *str, int *err);
 uint32_t neat_parse_uint32_t(char *str, int *err);
 uint64_t neat_parse_uint64_t(char *str, int *err);
-// float neat_parse_float(char *str, int *err);
-// double neat_parse_double(char *str, int *err);
+float neat_parse_float(char *str, int *err);
+double neat_parse_double(char *str, int *err);
 
 #endif // NEAT_TOSTR_H
 
@@ -500,13 +504,25 @@ char *neat_uint64_t2str(uint64_t *obj) {
     return ret;
 }
 
-// char *neat_float2str(float *obj)
-// {
-//     int max_digits = 3 + DBL_MANT_DIG - DBL_MIN_EXP;
-//     char *ret = malloc(max_digits * sizeof(char));
-// }
-// 
-// char *neat_double2str(double *obj);
+char *neat_float2str(float *obj)
+{
+    int len = snprintf(NULL, 0, "%g", *obj);
+    char *ret = calloc(sizeof(char), len + 1);
+    
+    sprintf(ret, "%g", *obj);
+    
+    return ret;
+}
+
+char *neat_double2str(double *obj)
+{
+    int len = snprintf(NULL, 0, "%g", *obj);
+    char *ret = calloc(sizeof(char), len + 1);
+    
+    sprintf(ret, "%lg", *obj);
+    
+    return ret;
+}
 
 // parse functions definitions
 
@@ -582,6 +598,20 @@ uint32_t neat_parse_uint32_t(char *str, int *err) {
 uint64_t neat_parse_uint64_t(char *str, int *err) {
     uint64_t ret;
     *err = sscanf(str, "%llu", &ret);
+    return ret;
+}
+
+float neat_parse_float(char *str, int *err)
+{
+    float ret;
+    *err = sscanf(str, "%g", &ret);
+    return ret;
+}
+
+double neat_parse_double(char *str, int *err)
+{
+    double ret;
+    *err = sscanf(str, "%lg", &ret);
     return ret;
 }
 
