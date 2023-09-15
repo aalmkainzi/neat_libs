@@ -412,7 +412,7 @@ char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*
     for(size_t i = 0 ; i < len ; i++) {
         final_str_len += strlen(strings[i]) + 2;
     }
-    ret = malloc(final_str_len * sizeof(char) );
+    ret = calloc(final_str_len, sizeof(char));
     ret[0] = '{';
     for(size_t i = 0 ; i < len - 1; i++) {
         strcat(ret, strings[i]);
@@ -420,6 +420,12 @@ char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*
     }
     strcat(ret, strings[len - 1]);
     ret[final_str_len - 2] = '}';
+    
+    for(size_t i = 0 ; i < len ; i++)
+    {
+        free(strings[i]);
+    }
+    free(strings);
     
     return ret;
 }
