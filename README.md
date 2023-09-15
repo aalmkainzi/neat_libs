@@ -294,7 +294,7 @@ int main()
 }
 ```
 
-Thsee functions work for any stringable type.
+These functions work for any stringable type.
 
 To add a stringable type you do:
 ```C
