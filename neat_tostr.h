@@ -276,6 +276,12 @@ NEAT_USER_PARSABLE_TYPES
 
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
+#define get_tostr(type) \
+_Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
+
+#define get_parse(type) \
+_Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
+
 #define neat_to_string(obj) \
 _Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] )
 
