@@ -57,10 +57,28 @@
                   Returns a 'malloc'ed string representation of s.
                  
             array_to_string:
-                char* array_to_string(S* s, n);
+                char* array_to_string(S* s, int n);
                   Returns a 'malloc'ed string from the array s 
                   of size n,
-                 
+                
+            print:
+                void print(S s);
+                  Prints to stdout the string representation of s.
+                  
+            fprint:
+                void fprint(FILE* f, S s);
+                  Prints to f the string representation of s.
+                  
+            print_array:
+                void print_array(S* s, int n);
+                  Prints to stdout the string representation of the
+                  array s with length n.
+                  
+            fprint_array:
+                void print_array(FILE* f, S* s, int n);
+                  Prints to f the string representation of the
+                  array s with length n.
+                  
             parse:
                 S parse(S, char *str);
                   Parses S from str and returns it.
@@ -68,6 +86,10 @@
                 S parse(S, char *str, int *err);
                   Parses S from str and returns it.
                   Puts error code into err.
+                  
+        If you want the API to be prefixed,
+        then define NEAT_TOSTR_PREFIX before including.
+        All the functions (macros) will be prefixed with 'neat_'
 */
 
 #ifndef NEAT_TOSTR_H
@@ -80,10 +102,10 @@
 #include <float.h>
 #include <stdbool.h>
 
-#define ADD_STRINGABLE(type, tostr) \
+#define NEAT_ADD_STRINGABLE(type, tostr) \
 type: tostr
 
-#define ADD_PARSABLE(type, parse) \
+#define NEAT_ADD_PARSABLE(type, parse) \
 type: parse
 
 
@@ -194,36 +216,35 @@ type: parse
 
 #endif // User's PARSABLE_TYPES
 
-
 #define NEAT_DEFAULT_STRINGABLE_TYPES \
-ADD_STRINGABLE(char,      neat_char2str), \
-ADD_STRINGABLE(char*,     neat_str2str), \
-ADD_STRINGABLE(bool,      neat_bool2str), \
-ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
-ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
-ADD_STRINGABLE(int32_t,   neat_int32_t2str), \
-ADD_STRINGABLE(long long, neat_int64_t2str), \
-ADD_STRINGABLE(int64_t,   neat_int64_t2str), \
-ADD_STRINGABLE(uint8_t,   neat_uint8_t2str), \
-ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
-ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
-ADD_STRINGABLE(unsigned   long long, neat_uint64_t2str), \
-ADD_STRINGABLE(uint64_t,  neat_uint64_t2str)
+NEAT_ADD_STRINGABLE(char,      neat_char2str), \
+NEAT_ADD_STRINGABLE(char*,     neat_str2str), \
+NEAT_ADD_STRINGABLE(bool,      neat_bool2str), \
+NEAT_ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
+NEAT_ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
+NEAT_ADD_STRINGABLE(int32_t,   neat_int32_t2str), \
+NEAT_ADD_STRINGABLE(long long, neat_int64_t2str), \
+NEAT_ADD_STRINGABLE(int64_t,   neat_int64_t2str), \
+NEAT_ADD_STRINGABLE(uint8_t,   neat_uint8_t2str), \
+NEAT_ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
+NEAT_ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
+NEAT_ADD_STRINGABLE(unsigned   long long, neat_uint64_t2str), \
+NEAT_ADD_STRINGABLE(uint64_t,  neat_uint64_t2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
-ADD_PARSABLE(char,      neat_parse_char), \
-ADD_PARSABLE(char*,     neat_parse_str), \
-ADD_PARSABLE(bool,      neat_parse_bool), \
-ADD_PARSABLE(int8_t,    neat_parse_int8_t), \
-ADD_PARSABLE(int16_t,   neat_parse_int16_t), \
-ADD_PARSABLE(int32_t,   neat_parse_int32_t), \
-ADD_PARSABLE(long long, neat_parse_int64_t), \
-ADD_PARSABLE(int64_t,   neat_parse_int64_t), \
-ADD_PARSABLE(uint8_t,   neat_parse_uint8_t), \
-ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
-ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
-ADD_PARSABLE(unsigned   long long, neat_parse_uint64_t), \
-ADD_PARSABLE(uint64_t,  neat_parse_uint64_t)
+NEAT_ADD_PARSABLE(char,      neat_parse_char), \
+NEAT_ADD_PARSABLE(char*,     neat_parse_str), \
+NEAT_ADD_PARSABLE(bool,      neat_parse_bool), \
+NEAT_ADD_PARSABLE(int8_t,    neat_parse_int8_t), \
+NEAT_ADD_PARSABLE(int16_t,   neat_parse_int16_t), \
+NEAT_ADD_PARSABLE(int32_t,   neat_parse_int32_t), \
+NEAT_ADD_PARSABLE(long long, neat_parse_int64_t), \
+NEAT_ADD_PARSABLE(int64_t,   neat_parse_int64_t), \
+NEAT_ADD_PARSABLE(uint8_t,   neat_parse_uint8_t), \
+NEAT_ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
+NEAT_ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
+NEAT_ADD_PARSABLE(unsigned   long long, neat_parse_uint64_t), \
+NEAT_ADD_PARSABLE(uint64_t,  neat_parse_uint64_t)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
 NEAT_DEFAULT_STRINGABLE_TYPES \
@@ -235,16 +256,44 @@ NEAT_USER_PARSABLE_TYPES
 
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
-#define to_string(obj) \
+#define neat_to_string(obj) \
 _Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)){obj} )
 
-#define array_to_string(arr, n) \
-neat_array_to_string(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
+#define neat_array_to_string(arr, n) \
+neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
 
-#define parse(type, str, ...) \
+#define neat_fprint(file, obj) do { \
+char *neat_str = neat_to_string(obj); \
+fprintf(file, "%s", neat_str); \
+free(neat_str); \
+} while(0)
+
+#define neat_print(obj) neat_fprint(stdout, obj)
+
+#define neat_fprint_array(file, arr, n) do { \
+char *neat_str = neat_array_to_string(arr, n); \
+fprintf(file, "%s", neat_str); \
+free(neat_str); \
+} while(0)
+
+#define neat_print_array(arr, n) neat_fprint_array(stdout, arr, n)
+
+#define neat_parse(type, str, ...) \
 _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_ARGS__ }[ !neat_is_empty(d,__VA_ARGS__) ])
 
-char *neat_array_to_string(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
+#ifndef NEAT_TOSTR_PREFIX
+    #define ADD_STRINGABLE NEAT_ADD_STRINGABLE
+    #define ADD_PARSABLE NEAT_ADD_PARSABLE
+    #define to_string neat_to_string
+    #define array_to_string neat_array_to_string
+    #define print neat_print
+    #define fprint neat_fprint
+    #define print_array neat_print_array
+    #define fprint_array neat_fprint_array
+    #define parse neat_parse
+#endif
+
+char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
 
 // 2str functions declarations
 
@@ -282,7 +331,7 @@ uint64_t neat_parse_uint64_t(char *str, int *err);
 
 #ifdef NEAT_TOSTR_IMPLEMENTATION
 
-char *neat_array_to_string(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
+char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
 {
     if(len == 0)
     {
