@@ -246,7 +246,8 @@ int main()
 }
 ```
 ## neat_tostr
-A library for converting to string and parsing from string. By default it has parse/to_string support for all integer types, char, bool, and string. Additional types can easily be added
+A library for converting to string and parsing from string. By default it has parse/to_string support for all the main number types, char, bool, and string.
+Additional types can easily be added
 
 ### API
 Before including the library, you must define ```NEAT_TOSTR_IMPLEMENTATION``` once in your project.
