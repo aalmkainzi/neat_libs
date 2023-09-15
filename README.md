@@ -344,5 +344,6 @@ ADD_PARSABLE(A, parse_a), \
 ADD_PARSABLE(B, parse_b), \
 ADD_PARSABLE(C, parse_c)
 
+#define NEAT_TOSTR_IMPLEMENTATION
 #include "neat_tostr.h"
 ```
