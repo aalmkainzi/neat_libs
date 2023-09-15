@@ -275,20 +275,7 @@ int main()
 }
 ```
 
-
-To add a stringable type you do:
-```C
-#define STRINGABLE_TYPES ADD_STRINGABLE(S, s2str)
-
-#include "neat_tostr.h"
-```
-Where the function ```s2str``` is in this format:
-```C
-char *s2str(S*);
-```
-The string it retuns must be a ```malloc```ed string
-
-For all stringable types, you can call ```print``` and ```fprint```:
+you can call ```print``` and ```fprint```:
 ```C
 int main()
 {
@@ -306,6 +293,21 @@ int main()
     fprint_array(stdout, b, 10); 
 }
 ```
+
+Thsee functions work for any stringable type.
+
+To add a stringable type you do:
+```C
+#define STRINGABLE_TYPES ADD_STRINGABLE(S, s2str)
+
+#include "neat_tostr.h"
+```
+Where the function ```s2str``` is in this format:
+```C
+char *s2str(S*);
+```
+The string it retuns must be a ```malloc```ed string
+
 #### Parsing
 On top of type to string conversion, this library also has parsing from string to your types.
 
