@@ -102,10 +102,20 @@
             parse:
                 S parse(S, char *str);
                   Parses S from str and returns it.
-                
+                  
                 S parse(S, char *str, int *err);
                   Parses S from str and returns it.
                   Puts error code into err.
+                  
+            get_tostr:
+                char*(*)(S*) get_tostr(S);
+                  Returns the to_string function associated
+                  with S.
+                
+            get_parse:
+                S(*)(char*,int*) get_parse(S);
+                  Returns the parse function associated with
+                  S.
                   
         If you want the API to be prefixed,
         then define NEAT_TOSTR_PREFIX before including.
