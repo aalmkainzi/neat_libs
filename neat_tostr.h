@@ -276,10 +276,10 @@ NEAT_USER_PARSABLE_TYPES
 
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
-#define get_tostr(type) \
+#define neat_get_tostr(type) \
 _Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
 
-#define get_parse(type) \
+#define neat_get_parse(type) \
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 #define neat_to_string(obj) \
@@ -337,6 +337,8 @@ _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_
     #define println_array neat_println_array
     #define fprintln_array neat_fprintln_array
     #define parse neat_parse
+    #define get_tostr neat_get_tostr
+    #define get_parse neat_get_parse
 #endif
 
 char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
