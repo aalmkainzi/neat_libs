@@ -251,6 +251,7 @@ A library for converting to string and parsing from string. By default it has pa
 ### API
 Before including the library, you must define ```NEAT_TOSTR_IMPLEMENTATION``` once in your project.
 
+#### converting to string
 To convert to string:
 ```C
 #define NEAT_TOSTR_IMPLEMENTATION
@@ -258,8 +259,7 @@ To convert to string:
 
 int main()
 {
-    int x = 500;
-    char *str = to_string(x);
+    char *str = to_string(500);
 
     free(str);
 }
@@ -274,16 +274,7 @@ int main()
     free(str);
 }
 ```
-and to parse from string:
-```C
-void f(char *num_str)
-{
-    int y = parse(int, num_str);
-    // or
-    int err;
-    int z = parse(int, num_str, &err);
-}
-```
+
 
 To add a stringable type you do:
 ```C
@@ -297,7 +288,39 @@ char *s2str(S*);
 ```
 The string it retuns must be a ```malloc```ed string
 
-And to add a parsable type:
+For all stringable types, you can call ```print``` and ```fprint```:
+```C
+int main()
+{
+    print(100);
+    fprint(stdout, 200); 
+}
+```
+Also ```print_array``` and ```fprint_array```:
+```C
+int main()
+{
+    bool b[10];
+    
+    print_array(b, 10);
+    fprint_array(stdout, b, 10); 
+}
+```
+#### Parsing
+On top of type to string conversion, this library also has parsing from string to your types.
+
+To parse from string:
+```C
+void f(char *num_str)
+{
+    int y = parse(int, num_str);
+    // or
+    int err;
+    int z = parse(int, num_str, &err);
+}
+```
+
+To add a parsable type:
 ```C
 #define PARSABLE_TYPES ADD_PARSABLE(S, parse_s)
 
@@ -320,49 +343,4 @@ ADD_PARSABLE(B, parse_b), \
 ADD_PARSABLE(C, parse_c)
 
 #include "neat_tostr.h"
-```
-
-### code example:
-```C
-#define STRINGABLE_TYPES \
-ADD_STRINGABLE(A, a2str), \
-ADD_STRINGABLE(B, b2str), \
-ADD_STRINGABLE(C, c2str)
-
-#define NEAT_TOSTR_IMPLEMENTATION
-#include "neat_tostr.h"
-
-typedef struct A { long long l; } A;
-
-typedef struct B { char c; } B;
-
-typedef struct C { int i;  } C;
-
-char *a2str(A a);
-char *b2str(B b);
-char *c2str(C c);
-
-char *c2str(C *c) { return to_string(c->i); }
-
-char *a2str(A *a) { return to_string(a->l); }
-
-char *b2str(B *b) { return to_string(b->c); }
-
-int main()
-{
-    char *a_str = to_string( (A){500} );
-    char *b_str = to_string( (B){'a'} );
-    char *c_str = to_string( (C){100} );
-    
-    A a_arr[100];
-    char *arr_str = array_to_string(a_arr, 100);
-    
-    puts(arr_str);
-
-    free(a_str);
-    free(b_str);
-    free(c_str);
-    free(arr_str);
-}
-
 ```
