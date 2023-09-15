@@ -165,19 +165,15 @@ ADD_ITERATOR(vector,     vec_begin, vec_end, vec_next, vec_prev)
 
 #include "neat_iterator.h"
 ```
-After which you can do stuff like:
+After which you can do things like:
 ```C
 vector vec = ... ;
 
-int *i;
+it_type(vec) i;
 i = it_begin(vec);
 i = it_next(vec, i);
 i = it_prev(vec, i);
 i = it_end(vec);
-```
-You also have access to ```it_type(vec)``` which returns the type of the iterator associated with the iterable:
-```C
-it_type(vec) i;
 ```
 
 And you can also use foreach loops:
