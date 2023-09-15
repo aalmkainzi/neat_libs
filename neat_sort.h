@@ -74,12 +74,17 @@
                 S *SEARCH(S[], S k);
                   Does linear search to find k in the local array.
                   Returns a pointer to it if found, NULL otherwise.
-                
+                  
             SEARCH_PTR:
                 S *SEARCH(S*, size_t n, S k);
                   Does linear search to find k in the array pointer
                   of length n.
                   Returns a pointer to it if found, NULL otherwise.
+                  
+            GET_CMP:
+                int(*)(S*,S*) GET_CMP(type);
+                  Returns the compare function associated with the
+                  type.
 */
 
 #ifndef NEAT_SORT_H
@@ -165,9 +170,9 @@ typedef int (*cmp_func)(const void*, const void*);
 
 #define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
 
-#define GET_CMP_FOR(type) ((cmp_func) _Generic((typeof(type)){0}, ALL_SORTABLE_TYPES))
+#define GET_CMP(type) ((cmp_func) _Generic((typeof(type)){0}, ALL_SORTABLE_TYPES))
 
-#define SORT_PTR(arr, n) qsort(arr, n, sizeof(*arr), GET_CMP_FOR(*arr))
+#define SORT_PTR(arr, n) qsort(arr, n, sizeof(*arr), GET_CMP(*arr))
 
 #define SORT(arr) SORT_PTR(arr, ARR_LEN(arr))
 
@@ -188,11 +193,11 @@ REVERSE_ARRAY_PTR(arr, n); \
 
 #define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
 
-#define BSEARCH_PTR(arr, n, key) bsearch (&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP_FOR(*arr)) \
+#define BSEARCH_PTR(arr, n, key) bsearch (&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr)) \
 
 #define BSEARCH(arr, key) BSEARCH_PTR(arr, ARR_LEN(arr), key)
 
-#define SEARCH_PTR(arr, n, key) neat_search(&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP_FOR(*arr))
+#define SEARCH_PTR(arr, n, key) neat_search(&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr))
 
 #define SEARCH(arr, key) SEARCH_PTR(arr, ARR_LEN(arr), key)
 
