@@ -286,8 +286,8 @@ int main()
 {
     int arr[5] = {1, 2, 3, 4, 5};
     
-    print_array(arr, 10); // prints "{1, 2, 3, 4, 5}"
-    fprint_array(stdout, arr, 10); 
+    print_array(arr, 5); // prints "{1, 2, 3, 4, 5}"
+    fprint_array(stdout, arr, 5); 
 }
 ```
 
