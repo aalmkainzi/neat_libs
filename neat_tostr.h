@@ -297,10 +297,10 @@ _Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 #define neat_to_string(obj) \
-_Generic(obj, char*: neat_str2str(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
+_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] )
 
 #define neat_array_to_string(arr, n) \
-_Generic(*arr, char*: neat_string_array_to_string_f(arr, n), default: neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr)) )
+neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
 
 #define neat_fprint(file, obj) do { \
 char *neat_str = neat_to_string(obj); \
@@ -356,11 +356,11 @@ _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_
 #endif
 
 char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
-char *neat_string_array_to_string_f(char **arr, size_t len);
+
 // 2str functions declarations
 
 char *neat_char2str(char *obj);
-char *neat_str2str(char *obj);
+char *neat_str2str(char **obj);
 char *neat_bool2str(bool *obj);
 char *neat_int8_t2str(int8_t *obj);
 char *neat_int16_t2str(int16_t *obj);
@@ -392,32 +392,6 @@ double neat_parse_double(char *str, int *err);
 #endif // NEAT_TOSTR_H
 
 #ifdef NEAT_TOSTR_IMPLEMENTATION
-
-char *neat_string_array_to_string_f(char **arr, size_t len)
-{
-    if(len == 0)
-    {
-        char *ret = malloc(3 * sizeof(char));
-        memcpy(ret, "{}", 3);
-        return ret;
-    }
-    
-    size_t final_str_len = 1;
-    for(size_t i = 0 ; i < len ; i++) {
-        final_str_len += strlen(arr[i]) + 2;
-    }
-    
-    char *ret = calloc(final_str_len, sizeof(char));
-    ret[0] = '{';
-    for(size_t i = 0 ; i < len - 1; i++) {
-        strcat(ret, arr[i]);
-        strcat(ret, ", ");
-    }
-    strcat(ret, arr[len - 1]);
-    ret[final_str_len - 2] = '}';
-    
-    return ret;
-}
 
 char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
 {
@@ -468,10 +442,10 @@ char *neat_char2str(char *obj) {
     return ret;
 }
 
-char *neat_str2str(char *obj) {
-    size_t len = strlen(obj);
+char *neat_str2str(char **obj) {
+    size_t len = strlen(*obj);
     char *ret = malloc(len + 1);
-    memcpy(ret, obj, len + 1);
+    memcpy(ret, *obj, len + 1);
     return ret;
 }
 
