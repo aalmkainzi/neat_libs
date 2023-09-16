@@ -284,10 +284,10 @@ Also ```print_array``` and ```fprint_array```:
 ```C
 int main()
 {
-    bool b[10];
+    int arr[5] = {1, 2, 3, 4, 5};
     
-    print_array(b, 10);
-    fprint_array(stdout, b, 10); 
+    print_array(arr, 10); // prints "{1, 2, 3, 4, 5}"
+    fprint_array(stdout, arr, 10); 
 }
 ```
 
