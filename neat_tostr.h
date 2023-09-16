@@ -297,7 +297,7 @@ _Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 #define neat_to_string(obj) \
-_Generic(obj, char*: neat_str2str((char*) &(typeof(obj)[]){obj}[0]), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
+_Generic(obj, char*: neat_str2str(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
 
 #define neat_array_to_string(arr, n) \
 _Generic(*arr, char*: neat_string_array_to_string_f(arr, n), default: neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr)) )
