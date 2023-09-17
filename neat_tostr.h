@@ -543,7 +543,7 @@ bool neat_parse_bool(char *str, int *err) {
         *err = -1;
         return false;
     }
-    if(strncmp(str, "true", 4) == 0) {
+    if(strncmp(str, "true", 4) == 0) { // can actually replace this with memcmp since we know the size
         return true;
     }
     else if(strncmp(str, "false", 5) == 0) {
@@ -556,48 +556,56 @@ bool neat_parse_bool(char *str, int *err) {
 int8_t neat_parse_int8_t(char *str, int *err) {
     int8_t ret;
     *err = sscanf(str, "%hhd", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 int16_t neat_parse_int16_t(char *str, int *err) {
     int16_t ret;
     *err = sscanf(str, "%hd", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 int32_t neat_parse_int32_t(char *str, int *err) {
     int32_t ret;
     *err = sscanf(str, "%d", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 int64_t neat_parse_int64_t(char *str, int *err) {
     int64_t ret;
     *err = sscanf(str, "%lld", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 uint8_t neat_parse_uint8_t(char *str, int *err) {
     uint8_t ret;
     *err = sscanf(str, "%hhu", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 uint16_t neat_parse_uint16_t(char *str, int *err) {
     uint16_t ret;
     *err = sscanf(str, "%hu", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 uint32_t neat_parse_uint32_t(char *str, int *err) {
     uint32_t ret;
     *err = sscanf(str, "%u", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
 uint64_t neat_parse_uint64_t(char *str, int *err) {
     uint64_t ret;
     *err = sscanf(str, "%llu", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
@@ -605,6 +613,7 @@ float neat_parse_float(char *str, int *err)
 {
     float ret;
     *err = sscanf(str, "%g", &ret);
+    *err &= (*err < 0);
     return ret;
 }
 
@@ -612,6 +621,7 @@ double neat_parse_double(char *str, int *err)
 {
     double ret;
     *err = sscanf(str, "%lg", &ret);
+    *err &= (*err < 0); // sets *err to 0 if sscanf returned positive.
     return ret;
 }
 
