@@ -248,7 +248,7 @@ type: parse
 
 #define NEAT_DEFAULT_STRINGABLE_TYPES \
 NEAT_ADD_STRINGABLE(char,      neat_char2str), \
-NEAT_ADD_STRINGABLE(char*,     neat_str2str), \
+NEAT_ADD_STRINGABLE(char*,     neat_str2str_dummy), \
 NEAT_ADD_STRINGABLE(bool,      neat_bool2str), \
 NEAT_ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
 NEAT_ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
@@ -297,7 +297,7 @@ _Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 #define neat_to_string(obj) \
-_Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] )
+_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: _Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] ) )
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
@@ -360,7 +360,7 @@ char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*
 // 2str functions declarations
 
 char *neat_char2str(char *obj);
-char *neat_str2str(char **obj);
+char *neat_str2str(char *obj); char *neat_str2str_dummy(char **obj);
 char *neat_bool2str(bool *obj);
 char *neat_int8_t2str(int8_t *obj);
 char *neat_int16_t2str(int16_t *obj);
@@ -442,10 +442,10 @@ char *neat_char2str(char *obj) {
     return ret;
 }
 
-char *neat_str2str(char **obj) {
-    size_t len = strlen(*obj);
+char *neat_str2str(char *obj) {
+    size_t len = strlen(obj);
     char *ret = malloc(len + 1);
-    memcpy(ret, *obj, len + 1);
+    memcpy(ret, obj, len + 1);
     return ret;
 }
 
