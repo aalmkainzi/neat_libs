@@ -911,7 +911,7 @@ char *neat_double2str(double *obj);
 
 char neat_parse_char(char *str, int *err);
 char *neat_parse_str(char *str, int *err);
-bool neat_parse_bool(char *str, int *err); // should I parse bool? Maybe user wants T or TRUE instead of true. Let user make his parse_bool func?
+bool neat_parse_bool(char *str, int *err);
 int8_t neat_parse_int8_t(char *str, int *err);
 int16_t neat_parse_int16_t(char *str, int *err);
 int32_t neat_parse_int32_t(char *str, int *err);
