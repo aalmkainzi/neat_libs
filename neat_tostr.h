@@ -59,7 +59,7 @@
             array_to_string:
                 char* array_to_string(S* s, int n);
                   Returns a 'malloc'ed string from the array s 
-                  of size n,
+                  of size n.
                 
             print:
                 void print(...);
@@ -74,7 +74,7 @@
             println:
                 void println(...);
                   Prints to stdout the string representation of all
-                  the args, with '\n' after it.
+                  the args, with '\n' afterwards.
                   
             fprintln:
                 void fprintln(FILE* f, ...);
@@ -116,8 +116,8 @@
                 
             get_parse:
                 S(*)(char*,int*) get_parse(S);
-                  Returns the parse function associated with
-                  S.
+                  Returns the parse function associated
+                  with S.
                   
         If you want the API to be prefixed,
         then define NEAT_TOSTR_PREFIX before including.
