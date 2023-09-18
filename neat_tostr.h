@@ -8,29 +8,32 @@
     DOCUMENTATION
         
         By default this library has parsing/to_string support
-        for all integer types, char, bool, and string.
+        for all main number types, char, bool, and string.
         User types can easily be added.
         
-        Extending 'to_string' with additonal types:
+        Extending with additonal stringable types:
+            
             #define STRINGABLE_TYPES ADD_STRINGABLE(T, T2str)
             #include "neat_tostr.h"
-        
+            
         T2str must be a function with this prototype:
             
             char *T2str(T*);
             
         And it should return a 'malloc'ed string.
         
-        Extending 'parse' with additonal types:
+        Extending with additonal parsable types:
+            
             #define PARSABLE_TYPES ADD_PARSABLE(T, parseT)
             #include "neat_tostr.h"
-        
+            
         parseT must be a function with this prototype:
-        
+            
             T parseT(char *str, int *err);
-        
+            
         You can add as many stringable and parsable types 
         as you want:
+            
             #define STRINGABLE_TYPES \
             ADD_STRINGABLE(A, a2str), \
             ADD_STRINGABLE(B, b2str), \
@@ -42,7 +45,7 @@
             ADD_PARSABLE(C, parse_c)
             
             #include "neat_tostr.h"
-        
+            
         make sure to only put commas *between* the ADD_ calls.
         
         You can also define STRINGABLE_TYPES2 and STRINGABLE_TYPES3.
