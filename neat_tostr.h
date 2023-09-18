@@ -904,7 +904,7 @@ _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_
     #define get_parse neat_get_parse
 #endif
 
-char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
+char *neat_array_to_string_f(void *arr, size_t len, size_t elm_size, char*(*tostr)(void*));
 
 // 2str functions declarations
 
@@ -942,7 +942,7 @@ double neat_parse_double(char *str, int *err);
 
 #ifdef NEAT_TOSTR_IMPLEMENTATION
 
-char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
+char *neat_array_to_string_f(void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
 {
     if(len == 0)
     {
@@ -951,7 +951,7 @@ char *neat_array_to_string_f(const void *arr, size_t len, size_t elm_size, char*
         return ret;
     }
     
-    const uint8_t *u8arr = arr;
+    uint8_t *u8arr = arr;
     
     char **strings = malloc(len * sizeof(char*));
     for(size_t i = 0 ; i < len ; i++)
