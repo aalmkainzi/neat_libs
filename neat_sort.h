@@ -168,13 +168,13 @@ NEAT_USER_SORTABLE_TYPES
 
 typedef int (*cmp_func)(const void*, const void*);
 
-#define ARR_LEN(arr) (sizeof(arr) / sizeof(*arr))
+#define NEAT_ARRLEN(arr) (sizeof(arr) / sizeof(*arr))
 
 #define GET_CMP(type) ((cmp_func) _Generic((typeof(type)){0}, ALL_SORTABLE_TYPES))
 
 #define SORT_PTR(arr, n) qsort(arr, n, sizeof(*arr), GET_CMP(*arr))
 
-#define SORT(arr) SORT_PTR(arr, ARR_LEN(arr))
+#define SORT(arr) SORT_PTR(arr, NEAT_ARRLEN(arr))
 
 #define REVERSE_ARRAY_PTR(arr, n) do { \
 for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
@@ -184,22 +184,22 @@ for(int neat_iter = 0; neat_iter < n/2; neat_iter++) { \
 } \
 } while(0)
 
-#define REVERSE_ARRAY(arr) REVERSE_ARRAY_PTR(arr, ARR_LEN(arr))
+#define REVERSE_ARRAY(arr) REVERSE_ARRAY_PTR(arr, NEAT_ARRLEN(arr))
 
 #define SORT_DESC_PTR(arr, n) do { \
 SORT_PTR(arr, n); \
 REVERSE_ARRAY_PTR(arr, n); \
 } while(0)
 
-#define SORT_DESC(arr) SORT_DESC_PTR(arr, ARR_LEN(arr))
+#define SORT_DESC(arr) SORT_DESC_PTR(arr, NEAT_ARRLEN(arr))
 
 #define BSEARCH_PTR(arr, n, key)  (typeof(*arr)*) bsearch (&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr)) \
 
-#define BSEARCH(arr, key) BSEARCH_PTR(arr, ARR_LEN(arr), key)
+#define BSEARCH(arr, key) BSEARCH_PTR(arr, NEAT_ARRLEN(arr), key)
 
 #define SEARCH_PTR(arr, n, key) (typeof(*arr)*) neat_search(&(typeof(*arr)[]){key}[0], arr, n, sizeof(*arr), GET_CMP(*arr))
 
-#define SEARCH(arr, key) SEARCH_PTR(arr, ARR_LEN(arr), key)
+#define SEARCH(arr, key) SEARCH_PTR(arr, NEAT_ARRLEN(arr), key)
 
 #define declare_number_cmp_func(type) int neat_##type##_cmp (const type *a, const type *b)
 #define define_number_cmp_func(type) declare_number_cmp_func(type) { return (*a > *b) - (*b > *a); }
