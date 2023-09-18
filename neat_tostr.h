@@ -884,7 +884,6 @@ _Generic((type){0}, NEAT_ALL_PARSABLE_TYPES)(str, (int*[2]){ &(int){0} , ##__VA_
     #define fprint_array neat_fprint_array
     #define println_array neat_println_array
     #define fprintln_array neat_fprintln_array
-    #define fprint neat_fprint
     #define parse neat_parse
     #define get_tostr neat_get_tostr
     #define get_parse neat_get_parse
