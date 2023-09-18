@@ -246,7 +246,7 @@ A library for converting to string and parsing from string. By default it has pa
 Additional types can easily be added
 
 ### API
-Before including the library, you must define ```NEAT_TOSTR_IMPLEMENTATION``` once in your project.
+Before including the library, you must define `NEAT_TOSTR_IMPLEMENTATION` once in your project.
 
 #### Converting to string
 To convert to string:
@@ -272,7 +272,7 @@ int main()
 }
 ```
 
-you can call ```print``` and ```fprint```:
+you can call `print` and `fprint`:
 ```C
 int main()
 {
@@ -280,7 +280,7 @@ int main()
     fprint(stdout, 200); 
 }
 ```
-Also ```print_array``` and ```fprint_array```:
+Also `print_array` and `fprint_array`:
 ```C
 int main()
 {
@@ -290,7 +290,14 @@ int main()
     fprint_array(stdout, arr, 5); 
 }
 ```
-
+`print_all` and `fprint_all`:
+```C
+int main()
+{
+    print_all(1, 1.5f, "\nhello world\n");
+    fprint_all(stdout, 1, 2.5f, 3.5, "hello world\n");
+}
+```
 These functions work for any stringable type.
 
 To add a stringable type you do:
