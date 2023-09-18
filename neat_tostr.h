@@ -989,6 +989,8 @@ char *neat_str2str(char *obj) {
     return ret;
 }
 
+char *neat_str2str_dummy(char **obj) { return NULL; };
+
 char *neat_bool2str(bool *obj) {
     char *ret = malloc(6 * sizeof(char));
     memcpy(ret, "false", 6);
