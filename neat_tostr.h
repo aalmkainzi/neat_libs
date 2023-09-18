@@ -1092,7 +1092,7 @@ bool neat_parse_bool(char *str, int *err) {
 int8_t neat_parse_int8_t(char *str, int *err) {
     int8_t ret;
     *err = sscanf(str, "%hhd", &ret) - 1;
-    *err &= -(*err < 0);
+    *err &= -(*err < 0); // sets *err to 0 if positive.
     return ret;
 }
 
@@ -1157,7 +1157,7 @@ double neat_parse_double(char *str, int *err)
 {
     double ret;
     *err = sscanf(str, "%lg", &ret) - 1;
-    *err &= -(*err < 0); // sets *err to 0 if sscanf returned positive.
+    *err &= -(*err < 0);
     return ret;
 }
 
