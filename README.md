@@ -276,11 +276,13 @@ you can call `print` and `fprint`:
 ```C
 int main()
 {
-    print(100);
-    fprint(stdout, 200); 
+    print(100, "hello", 15.5f, "\n");
+    fprint(stdout, 3.14, "\n", "neat!\n"); 
 }
 ```
-Also `print_array` and `fprint_array`:
+You can also call `println` and `fprintln` to put a newline afterwards.
+
+To print arrays you can use `print_array` and `fprint_array`:
 ```C
 int main()
 {
@@ -290,14 +292,7 @@ int main()
     fprint_array(stdout, arr, 5); 
 }
 ```
-`print_all` and `fprint_all`:
-```C
-int main()
-{
-    print_all(1, 1.5f, "\nhello world\n");
-    fprint_all(stdout, 1, 2.5f, 3.5, "hello world\n");
-}
-```
+
 These functions work for any stringable type.
 
 To add a stringable type you do:
