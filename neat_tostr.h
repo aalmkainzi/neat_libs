@@ -79,6 +79,15 @@
                   Prints to f the string representation of s,
                   with '\n' after it.
                 
+            print_all:
+                void print_all(...);
+                  Prints the string representation of all the args.
+                  
+            fprint_all:
+                void fprint_all(FILE* f, ...);
+                  Prints the string representation of all the args
+                  into f.
+                  
             print_array:
                 void print_array(S* s, int n);
                   Prints to stdout the string representation of the
