@@ -1040,8 +1040,7 @@ char *neat_uint64_t2str(uint64_t *obj) {
     return ret;
 }
 
-char *neat_float2str(float *obj)
-{
+char *neat_float2str(float *obj) {
     int len = snprintf(NULL, 0, "%g", *obj);
     char *ret = calloc(sizeof(char), len + 1);
     
@@ -1050,8 +1049,7 @@ char *neat_float2str(float *obj)
     return ret;
 }
 
-char *neat_double2str(double *obj)
-{
+char *neat_double2str(double *obj) {
     int len = snprintf(NULL, 0, "%g", *obj);
     char *ret = calloc(sizeof(char), len + 1);
     
