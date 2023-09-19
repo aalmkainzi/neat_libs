@@ -364,7 +364,7 @@ _91,_92,_93,_94,_95,_96,_97,_98,_99, N,...) N
 
 #define neat_fprintln(file, ...) do { \
 neat_fprint(file, __VA_ARGS__); \
-putchar('\n'); \
+fputc('\n', file); \
 } while(0)
 
 #define neat_println(...) neat_fprintln(stdout, __VA_ARGS__)
