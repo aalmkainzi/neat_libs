@@ -253,7 +253,6 @@ type: parse
 
 #define NEAT_DEFAULT_STRINGABLE_TYPES \
 NEAT_ADD_STRINGABLE(char,      neat_char2str), \
-NEAT_ADD_STRINGABLE(char*,     neat_str2str_dummy), \
 NEAT_ADD_STRINGABLE(bool,      neat_bool2str), \
 NEAT_ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
 NEAT_ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
@@ -296,18 +295,17 @@ NEAT_USER_PARSABLE_TYPES
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
 #define neat_get_tostr(type) \
-_Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES)
+_Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES, char*: ((char*(*)(typeof(type)*))neat_str2str_dummy) )
 
 #define neat_get_parse(type) \
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
+// call neat_get_tostr
 #define neat_to_string(obj) \
-_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: _Generic(obj, NEAT_ALL_STRINGABLE_TYPES)( &(typeof(obj)[]){obj}[0] ) )
+_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
 
 #define neat_array_to_string(arr, n) \
-neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) _Generic(*arr, NEAT_ALL_STRINGABLE_TYPES))
-
-
+neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
 
 #define neat_fprint_array(file, arr, n) do { \
 char *neat_str = neat_array_to_string(arr, n); \
@@ -1015,7 +1013,7 @@ char *neat_int32_t2str(int32_t *obj) {
 
 char *neat_int64_t2str(int64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%lld", *obj);
+    sprintf(ret, "%zd", *obj);
     return ret;
 }
 
@@ -1039,7 +1037,7 @@ char *neat_uint32_t2str(uint32_t *obj) {
 
 char *neat_uint64_t2str(uint64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%llu", *obj);
+    sprintf(ret, "%zu", *obj);
     return ret;
 }
 
@@ -1113,7 +1111,7 @@ int32_t neat_parse_int32_t(char *str, int *err) {
 
 int64_t neat_parse_int64_t(char *str, int *err) {
     int64_t ret;
-    *err = sscanf(str, "%lld", &ret) - 1;
+    *err = sscanf(str, "%zd", &ret) - 1;
     *err &= -(*err < 0);
     return ret;
 }
@@ -1141,7 +1139,7 @@ uint32_t neat_parse_uint32_t(char *str, int *err) {
 
 uint64_t neat_parse_uint64_t(char *str, int *err) {
     uint64_t ret;
-    *err = sscanf(str, "%llu", &ret) - 1;
+    *err = sscanf(str, "%zu", &ret) - 1;
     *err &= -(*err < 0);
     return ret;
 }
