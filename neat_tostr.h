@@ -311,7 +311,7 @@ _Generic(obj, \
                char*: neat_str2str, \
                default: ((char*(*)(typeof(obj)))NULL) \
             )(obj), \
-    default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) \
+    default: neat_get_tostr(obj)( &( (struct { typeof(obj) T; }){obj}.T ) ) \
 )
 
 #define neat_array_to_string(arr, n) \
