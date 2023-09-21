@@ -302,7 +302,7 @@ _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 // call neat_get_tostr
 #define neat_to_string(obj) \
-_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)){obj} ) )
+_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
