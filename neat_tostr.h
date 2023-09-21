@@ -309,7 +309,8 @@ _Generic( (typeof(type)){0} , \
 _Generic(obj, \
     char*: _Generic(obj, \
                char*: neat_str2str, \
-               default: ((char*(*)(typeof(obj)))NULL) )(obj), \
+               default: ((char*(*)(typeof(obj)))NULL) \
+            )(obj), \
     default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) \
 )
 
