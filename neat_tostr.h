@@ -295,13 +295,21 @@ NEAT_USER_PARSABLE_TYPES
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
 #define neat_get_tostr(type) \
-_Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES, char*: ((char*(*)(typeof(type)*))neat_str2str_dummy) )
+_Generic( (typeof(type)){0} , \
+    NEAT_ALL_STRINGABLE_TYPES, \
+    char*: ((char*(*)(typeof(type)*))neat_str2str_dummy) \
+)
 
 #define neat_get_parse(type) \
-_Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
+_Generic( (typeof(type)){0} , \
+    NEAT_ALL_PARSABLE_TYPES \
+)
 
 #define neat_to_string(obj) \
-_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
+_Generic(obj, \
+    char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), \
+    default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) \
+)
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
