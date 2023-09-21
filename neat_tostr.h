@@ -379,9 +379,9 @@ fputc('\n', file); \
 
 // make an exception for strings, dont heap allocate them
 #define neat_fprint1(file, o1) do { \
-char *neat_str = neat_to_string(o1); \
+char *neat_str = _Generic(o1, char*: o1, default: neat_to_string(o1)); \
 fprintf(file, "%s", neat_str); \
-free(neat_str); \
+_Generic(o1, char*: 0, default: free(neat_str)); \
 } while(0)
 
 #define neat_fprint2(file, o1, o2) do { \
