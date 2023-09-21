@@ -300,7 +300,6 @@ _Generic( (typeof(type)){0} , NEAT_ALL_STRINGABLE_TYPES, char*: ((char*(*)(typeo
 #define neat_get_parse(type) \
 _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
-// call neat_get_tostr
 #define neat_to_string(obj) \
 _Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
 
@@ -367,6 +366,7 @@ fputc('\n', file); \
 
 #define neat_println(...) neat_fprintln(stdout, __VA_ARGS__)
 
+// make an exception for strings, dont heap allocate them
 #define neat_fprint1(file, o1) do { \
 char *neat_str = neat_to_string(o1); \
 fprintf(file, "%s", neat_str); \
