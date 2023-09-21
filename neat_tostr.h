@@ -302,7 +302,7 @@ _Generic( (typeof(type)){0} , NEAT_ALL_PARSABLE_TYPES)
 
 // call neat_get_tostr
 #define neat_to_string(obj) \
-_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)[]){obj}[0] ) )
+_Generic(obj, char*: ((char*(*)(typeof(obj)))neat_str2str)(obj), default: neat_get_tostr(obj)( &(typeof(obj)){0} ) )
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
@@ -984,7 +984,7 @@ char *neat_str2str(char *obj) {
     return ret;
 }
 
-char *neat_str2str_dummy(char **obj) { return NULL; };
+char *neat_str2str_dummy(char **obj) { return (char**)obj; };
 
 char *neat_bool2str(bool *obj) {
     char *ret = malloc(6 * sizeof(char));
