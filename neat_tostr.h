@@ -296,6 +296,7 @@ _Pragma("GCC diagnostic ignored \"-Wincompatible-pointer-types\"") \
 _Pragma("GCC diagnostic ignored \"-Wint-conversion\"") \
 _Pragma("GCC diagnostic ignored \"-Wmissing-braces\"")
     
+// in GCC we'll have to use statement-expressions because it doesn't allow _Pragma in an expression.
     #ifdef __GNUC__
         #define SILENCE_W_END \
 ; \
