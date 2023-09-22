@@ -263,7 +263,7 @@ NEAT_ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
 NEAT_ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
 NEAT_ADD_STRINGABLE(uint64_t,  neat_uint64_t2str), \
 NEAT_ADD_STRINGABLE(float,     neat_float2str), \
-NEAT_ADD_STRINGABLE(double,    neat_double2str), \
+NEAT_ADD_STRINGABLE(double,    neat_double2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
 NEAT_ADD_PARSABLE(char,      neat_parse_char), \
@@ -278,7 +278,7 @@ NEAT_ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
 NEAT_ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
 NEAT_ADD_PARSABLE(uint64_t,  neat_parse_uint64_t), \
 NEAT_ADD_PARSABLE(float,     neat_parse_float), \
-NEAT_ADD_PARSABLE(double,    neat_parse_double), \
+NEAT_ADD_PARSABLE(double,    neat_parse_double)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
 NEAT_DEFAULT_STRINGABLE_TYPES \
