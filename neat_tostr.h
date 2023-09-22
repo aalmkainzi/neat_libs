@@ -975,6 +975,8 @@ static inline void neat_dummy()
 
 #ifdef NEAT_TOSTR_IMPLEMENTATION
 
+//TODO use inttypes.h formats for all int printing/scanning
+
 char *neat_array_to_string_f(void *arr, size_t len, size_t elm_size, char*(*tostr)(void*))
 {
     if(len == 0)
