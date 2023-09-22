@@ -257,7 +257,6 @@ NEAT_ADD_STRINGABLE(bool,      neat_bool2str), \
 NEAT_ADD_STRINGABLE(int8_t,    neat_int8_t2str), \
 NEAT_ADD_STRINGABLE(int16_t,   neat_int16_t2str), \
 NEAT_ADD_STRINGABLE(int32_t,   neat_int32_t2str), \
-NEAT_ADD_STRINGABLE(long long, neat_int64_t2str), \
 NEAT_ADD_STRINGABLE(int64_t,   neat_int64_t2str), \
 NEAT_ADD_STRINGABLE(uint8_t,   neat_uint8_t2str), \
 NEAT_ADD_STRINGABLE(uint16_t,  neat_uint16_t2str), \
@@ -265,7 +264,6 @@ NEAT_ADD_STRINGABLE(uint32_t,  neat_uint32_t2str), \
 NEAT_ADD_STRINGABLE(uint64_t,  neat_uint64_t2str), \
 NEAT_ADD_STRINGABLE(float,     neat_float2str), \
 NEAT_ADD_STRINGABLE(double,    neat_double2str), \
-NEAT_ADD_STRINGABLE(unsigned long long, neat_uint64_t2str)
 
 #define NEAT_DEFAULT_PARSABLE_TYPES \
 NEAT_ADD_PARSABLE(char,      neat_parse_char), \
@@ -274,7 +272,6 @@ NEAT_ADD_PARSABLE(bool,      neat_parse_bool), \
 NEAT_ADD_PARSABLE(int8_t,    neat_parse_int8_t), \
 NEAT_ADD_PARSABLE(int16_t,   neat_parse_int16_t), \
 NEAT_ADD_PARSABLE(int32_t,   neat_parse_int32_t), \
-NEAT_ADD_PARSABLE(long long, neat_parse_int64_t), \
 NEAT_ADD_PARSABLE(int64_t,   neat_parse_int64_t), \
 NEAT_ADD_PARSABLE(uint8_t,   neat_parse_uint8_t), \
 NEAT_ADD_PARSABLE(uint16_t,  neat_parse_uint16_t), \
@@ -282,7 +279,6 @@ NEAT_ADD_PARSABLE(uint32_t,  neat_parse_uint32_t), \
 NEAT_ADD_PARSABLE(uint64_t,  neat_parse_uint64_t), \
 NEAT_ADD_PARSABLE(float,     neat_parse_float), \
 NEAT_ADD_PARSABLE(double,    neat_parse_double), \
-NEAT_ADD_PARSABLE(unsigned long long, neat_parse_uint64_t)
 
 #define NEAT_ALL_STRINGABLE_TYPES \
 NEAT_DEFAULT_STRINGABLE_TYPES \
@@ -292,12 +288,42 @@ NEAT_USER_STRINGABLE_TYPES
 NEAT_DEFAULT_PARSABLE_TYPES \
 NEAT_USER_PARSABLE_TYPES
 
+#ifndef _MSC_VER
+    #define SILENCE_W_BEGIN \
+_Pragma("GCC diagnostic push") \
+_Pragma("GCC diagnostic ignored \"-Wincompatible-pointer-types\"") \
+_Pragma("GCC diagnostic ignored \"-Wint-conversion\"") \
+_Pragma("GCC diagnostic ignored \"-Wmissing-braces\"")
+    
+    #ifdef __GNUC__
+        #define SILENCE_W_END \
+; \
+_Pragma("GCC diagnostic pop")
+    #else
+        #define SILENCE_W_END \
+_Pragma("GCC diagnostic pop")
+    #endif
+
+#else
+    // TODO deal with MSVC warnings
+    #define SILENCE_W_BEGIN
+    #define SILENCE_W_END
+#endif
+
+#ifdef __GNUC__
+    #define PRAGMA_EXP_BEGIN ({
+    #define PRAGMA_EXP_END })
+#else
+    #define PRAGMA_EXP_BEGIN
+    #define PRAGMA_EXP_END
+#endif
+
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
 
 #define neat_get_tostr(type) \
 _Generic( (typeof(type)){0} , \
     NEAT_ALL_STRINGABLE_TYPES, \
-    char*: ((char*(*)(typeof(type)*))neat_str2str_dummy) \
+    char*: (neat_str2str_dummy) \
 )
 
 #define neat_get_parse(type) \
@@ -306,13 +332,17 @@ _Generic( (typeof(type)){0} , \
 )
 
 #define neat_to_string(obj) \
+PRAGMA_EXP_BEGIN \
+SILENCE_W_BEGIN \
 _Generic(obj, \
     char*: _Generic(obj, \
                char*: neat_str2str, \
                default: ((char*(*)(typeof(obj)))NULL) \
             )(obj), \
     default: neat_get_tostr(obj)( &( (struct { typeof(obj) T; }){obj}.T ) ) \
-)
+) \
+SILENCE_W_END \
+PRAGMA_EXP_END
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
@@ -381,7 +411,7 @@ fputc('\n', file); \
 #define neat_fprint1(file, o1) do { \
 char *neat_str = _Generic(o1, char*: o1, default: neat_to_string(o1)); \
 fprintf(file, "%s", neat_str); \
-_Generic(o1, char*: 0, default: free(neat_str)); \
+_Generic(o1, char*: neat_dummy(), default: free(neat_str)); \
 } while(0)
 
 #define neat_fprint2(file, o1, o2) do { \
@@ -934,6 +964,11 @@ uint32_t neat_parse_uint32_t(char *str, int *err);
 uint64_t neat_parse_uint64_t(char *str, int *err);
 float neat_parse_float(char *str, int *err);
 double neat_parse_double(char *str, int *err);
+
+static inline void neat_dummy()
+{
+    return;
+}
 
 #endif // NEAT_TOSTR_H
 
