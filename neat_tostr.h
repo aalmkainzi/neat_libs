@@ -136,6 +136,7 @@
 #include <stdlib.h>
 #include <float.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 #define NEAT_ADD_STRINGABLE(type, tostr) \
 type: tostr
@@ -1059,7 +1060,7 @@ char *neat_int32_t2str(int32_t *obj) {
 
 char *neat_int64_t2str(int64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%zd", *obj);
+    sprintf(ret, "%" PRId64, *obj);
     return ret;
 }
 
@@ -1083,7 +1084,7 @@ char *neat_uint32_t2str(uint32_t *obj) {
 
 char *neat_uint64_t2str(uint64_t *obj) {
     char *ret = malloc(21 * sizeof(char));
-    sprintf(ret, "%zu", *obj);
+    sprintf(ret, "%" PRIu64, *obj);
     return ret;
 }
 
@@ -1157,7 +1158,7 @@ int32_t neat_parse_int32_t(char *str, int *err) {
 
 int64_t neat_parse_int64_t(char *str, int *err) {
     int64_t ret;
-    *err = sscanf(str, "%zd", &ret) - 1;
+    *err = sscanf(str, "%" PRId64, &ret) - 1;
     *err &= -(*err < 0);
     return ret;
 }
@@ -1185,7 +1186,7 @@ uint32_t neat_parse_uint32_t(char *str, int *err) {
 
 uint64_t neat_parse_uint64_t(char *str, int *err) {
     uint64_t ret;
-    *err = sscanf(str, "%zu", &ret) - 1;
+    *err = sscanf(str, "%" PRIu64, &ret) - 1;
     *err &= -(*err < 0);
     return ret;
 }
