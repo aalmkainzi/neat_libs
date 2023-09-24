@@ -418,7 +418,7 @@ fputc('\n', file); \
 #define neat_fprint1(file, o1) do { \
 char *neat_str = \
     _Generic(o1, \
-        char*: o1, \
+        char*:    o1, \
         char:     NULL, \
         bool:     NULL, \
         int8_t:   NULL, \
@@ -445,7 +445,7 @@ _Generic(o1, \
     uint32_t: fprintf(file, "%" PRIu32, _Generic(o1, uint32_t: o1, default: (uint32_t)0 )), \
     uint64_t: fprintf(file, "%" PRIu64, _Generic(o1, uint64_t: o1, default: (uint64_t)0 )), \
     float:    fprintf(file, "%g" ,      _Generic(o1, float:    o1, default: 0.0f )), \
-    double:    fprintf(file, "%lg" ,     _Generic(o1, double:  o1, default: 0.0 )) \
+    double:   fprintf(file, "%lg",      _Generic(o1, double:   o1, default: 0.0 )) \
 ); \
 \
 _Generic(o1, \
