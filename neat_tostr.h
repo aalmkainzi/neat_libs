@@ -349,18 +349,23 @@ PRAGMA_EXP_END
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
 
-#define neat_fprint_array(file, arr, n) do { \
-char *neat_str = neat_array_to_string(arr, n); \
-fprintf(file, "%s", neat_str); \
-free(neat_str); \
+#define neat_fprint_array(file, arr, n) \
+do { \
+    fprint(file, "{"); \
+    for(int i = 0 ; i < n - 1; i++) \
+    { \
+        fprint(file, arr[i], ", "); \
+    } \
+    if(n != 0) fprint(file, arr[n - 1]); \
+    fprint(file, "}"); \
 } while(0)
 
 #define neat_print_array(arr, n) neat_fprint_array(stdout, arr, n)
 
-#define neat_fprintln_array(file, arr, n) do { \
-char *neat_str = neat_array_to_string(arr, n); \
-fprintf(file, "%s\n", neat_str); \
-free(neat_str); \
+#define neat_fprintln_array(file, arr, n) \
+do { \
+    neat_fprint_array(file, arr, n); \
+    fputc('\n', file); \
 } while(0)
 
 #define neat_println_array(arr, n) neat_fprintln_array(stdout, arr, n)
@@ -409,12 +414,51 @@ fputc('\n', file); \
 
 #define neat_println(...) neat_fprintln(stdout, __VA_ARGS__)
 
-// make an exception for strings, dont heap allocate them
+// TODO add float and double for list of statically allocated strings.
 #define neat_fprint1(file, o1) do { \
-char *neat_str = _Generic(o1, char*: o1, default: neat_to_string(o1)); \
-fprintf(file, "%s", neat_str); \
-_Generic(o1, char*: neat_dummy(), default: free(neat_str)); \
+char *neat_str = \
+    _Generic(o1, \
+        char*: o1, \
+        char:     NULL, \
+        bool:     NULL, \
+        int8_t:   NULL, \
+        int16_t:  NULL, \
+        int32_t:  NULL, \
+        int64_t:  NULL, \
+        uint8_t:  NULL, \
+        uint16_t: NULL, \
+        uint32_t: NULL, \
+        uint64_t: NULL, \
+        default: neat_to_string(o1)); \
+_Generic(o1, \
+    char*:    fprintf(file, "%s", neat_str), \
+    default:  fprintf(file, "%s", neat_str), \
+    bool:     fprintf(file, "%s",       _Generic(o1, bool: o1, default: false) ? "true" : "false"), \
+    int8_t:   fprintf(file, "%" PRId8,  _Generic(o1, int8_t: o1, default: (int8_t)0 )), \
+    int16_t:  fprintf(file, "%" PRId16, _Generic(o1, int16_t: o1, default: (int16_t)0 )), \
+    int32_t:  fprintf(file, "%" PRId32, _Generic(o1, int32_t: o1, default: (int32_t)0 )), \
+    int64_t:  fprintf(file, "%" PRId64, _Generic(o1, int64_t: o1, default: (int64_t)0 )), \
+    uint8_t:  fprintf(file, "%" PRIu8,  _Generic(o1, uint8_t: o1, default: (uint8_t)0 )), \
+    uint16_t: fprintf(file, "%" PRIu16, _Generic(o1, uint16_t: o1, default: (uint8_t)0 )), \
+    uint32_t: fprintf(file, "%" PRIu32, _Generic(o1, uint32_t: o1, default: (uint32_t)0 )), \
+    uint64_t: fprintf(file, "%" PRIu64, _Generic(o1, uint64_t: o1, default: (uint64_t)0 )) \
+); \
+\
+_Generic(o1, \
+    char*:    neat_dummy(), \
+    bool:     neat_dummy(), \
+    int8_t:   neat_dummy(), \
+    int16_t:  neat_dummy(), \
+    int32_t:  neat_dummy(), \
+    int64_t:  neat_dummy(), \
+    uint8_t:  neat_dummy(), \
+    uint16_t: neat_dummy(), \
+    uint32_t: neat_dummy(), \
+    uint64_t: neat_dummy(), \
+    default: free(neat_str) \
+); \
 } while(0)
+// make sure all standard types call dummy not free.
 
 #define neat_fprint2(file, o1, o2) do { \
 neat_fprint1(file, o1); \
