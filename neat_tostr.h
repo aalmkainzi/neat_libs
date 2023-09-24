@@ -429,19 +429,23 @@ char *neat_str = \
         uint16_t: NULL, \
         uint32_t: NULL, \
         uint64_t: NULL, \
+        float:    NULL, \
+        double:   NULL, \
         default: neat_to_string(o1)); \
 _Generic(o1, \
     char*:    fprintf(file, "%s", neat_str), \
     default:  fprintf(file, "%s", neat_str), \
-    bool:     fprintf(file, "%s",       _Generic(o1, bool: o1, default: false) ? "true" : "false"), \
-    int8_t:   fprintf(file, "%" PRId8,  _Generic(o1, int8_t: o1, default: (int8_t)0 )), \
-    int16_t:  fprintf(file, "%" PRId16, _Generic(o1, int16_t: o1, default: (int16_t)0 )), \
-    int32_t:  fprintf(file, "%" PRId32, _Generic(o1, int32_t: o1, default: (int32_t)0 )), \
-    int64_t:  fprintf(file, "%" PRId64, _Generic(o1, int64_t: o1, default: (int64_t)0 )), \
-    uint8_t:  fprintf(file, "%" PRIu8,  _Generic(o1, uint8_t: o1, default: (uint8_t)0 )), \
+    bool:     fprintf(file, "%s",       _Generic(o1, bool:     o1, default: false) ? "true" : "false"), \
+    int8_t:   fprintf(file, "%" PRId8,  _Generic(o1, int8_t:   o1, default: (int8_t)0 )), \
+    int16_t:  fprintf(file, "%" PRId16, _Generic(o1, int16_t:  o1, default: (int16_t)0 )), \
+    int32_t:  fprintf(file, "%" PRId32, _Generic(o1, int32_t:  o1, default: (int32_t)0 )), \
+    int64_t:  fprintf(file, "%" PRId64, _Generic(o1, int64_t:  o1, default: (int64_t)0 )), \
+    uint8_t:  fprintf(file, "%" PRIu8,  _Generic(o1, uint8_t:  o1, default: (uint8_t)0 )), \
     uint16_t: fprintf(file, "%" PRIu16, _Generic(o1, uint16_t: o1, default: (uint8_t)0 )), \
     uint32_t: fprintf(file, "%" PRIu32, _Generic(o1, uint32_t: o1, default: (uint32_t)0 )), \
-    uint64_t: fprintf(file, "%" PRIu64, _Generic(o1, uint64_t: o1, default: (uint64_t)0 )) \
+    uint64_t: fprintf(file, "%" PRIu64, _Generic(o1, uint64_t: o1, default: (uint64_t)0 )), \
+    float:    fprintf(file, "%g" ,      _Generic(o1, float:    o1, default: 0.0f )), \
+    double:    fprintf(file, "%lg" ,     _Generic(o1, double:   o1, default: 0.0 )) \
 ); \
 \
 _Generic(o1, \
