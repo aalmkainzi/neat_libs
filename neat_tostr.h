@@ -290,7 +290,7 @@ NEAT_DEFAULT_PARSABLE_TYPES \
 NEAT_USER_PARSABLE_TYPES
 
 #ifndef _MSC_VER
-    #define SILENCE_W_BEGIN \
+    #define NEAT_TOSTR_SILENCE_W_BEGIN \
 _Pragma("GCC diagnostic push") \
 _Pragma("GCC diagnostic ignored \"-Wincompatible-pointer-types\"") \
 _Pragma("GCC diagnostic ignored \"-Wint-conversion\"") \
@@ -298,26 +298,26 @@ _Pragma("GCC diagnostic ignored \"-Wmissing-braces\"")
     
 // in GCC we'll have to use statement-expressions because it doesn't allow _Pragma in an expression.
     #ifdef __GNUC__
-        #define SILENCE_W_END \
+        #define NEAT_TOSTR_SILENCE_W_END \
 ; \
 _Pragma("GCC diagnostic pop")
     #else
-        #define SILENCE_W_END \
+        #define NEAT_TOSTR_SILENCE_W_END \
 _Pragma("GCC diagnostic pop")
     #endif
 
 #else
     // TODO deal with MSVC warnings
-    #define SILENCE_W_BEGIN
-    #define SILENCE_W_END
+    #define NEAT_TOSTR_SILENCE_W_BEGIN
+    #define NEAT_TOSTR_SILENCE_W_END
 #endif
 
 #ifdef __GNUC__
-    #define PRAGMA_EXP_BEGIN ({
-    #define PRAGMA_EXP_END })
+    #define NEAT_TOSTR_PRAGMA_EXP_BEGIN ({
+    #define NEAT_TOSTR_PRAGMA_EXP_END })
 #else
-    #define PRAGMA_EXP_BEGIN
-    #define PRAGMA_EXP_END
+    #define NEAT_TOSTR_PRAGMA_EXP_BEGIN
+    #define NEAT_TOSTR_PRAGMA_EXP_END
 #endif
 
 #define neat_is_empty(dummy, ...) ( sizeof( (char[]){#__VA_ARGS__} ) == 1 )
@@ -334,8 +334,8 @@ _Generic( (typeof(type)){0} , \
 )
 
 #define neat_to_string(obj) \
-PRAGMA_EXP_BEGIN \
-SILENCE_W_BEGIN \
+NEAT_TOSTR_PRAGMA_EXP_BEGIN \
+NEAT_TOSTR_SILENCE_W_BEGIN \
 _Generic(obj, \
     char*: _Generic(obj, \
                char*: neat_str2str, \
@@ -343,20 +343,21 @@ _Generic(obj, \
             )(obj), \
     default: neat_get_tostr(obj)( &( (struct { typeof(obj) T; }){obj}.T ) ) \
 ) \
-SILENCE_W_END \
-PRAGMA_EXP_END
+NEAT_TOSTR_SILENCE_W_END \
+NEAT_TOSTR_PRAGMA_EXP_END
 
 #define neat_array_to_string(arr, n) \
 neat_array_to_string_f(arr, n, sizeof(*arr), (char*(*)(void*)) neat_get_tostr(*arr))
 
 #define neat_fprint_array(file, arr, n) \
 do { \
+    int n_ = n; \
     fprint(file, "{"); \
-    for(int i = 0 ; i < n - 1; i++) \
+    for(int i = 0 ; i < n_ - 1; i++) \
     { \
         fprint(file, arr[i], ", "); \
     } \
-    if(n != 0) fprint(file, arr[n - 1]); \
+    if(n_ != 0) fprint(file, arr[n_ - 1]); \
     fprint(file, "}"); \
 } while(0)
 
@@ -1186,7 +1187,7 @@ bool neat_parse_bool(char *str, int *err) {
 
 int8_t neat_parse_int8_t(char *str, int *err) {
     int8_t ret;
-    *err = sscanf(str, "%" SCNd8, &ret) - 1; // sets *err to 0 if positive.
+    *err = sscanf(str, "%" SCNd8, &ret) - 1;
     return ret;
 }
 
