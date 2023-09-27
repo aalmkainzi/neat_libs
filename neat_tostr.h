@@ -1186,57 +1186,49 @@ bool neat_parse_bool(char *str, int *err) {
 
 int8_t neat_parse_int8_t(char *str, int *err) {
     int8_t ret;
-    *err = sscanf(str, "%" SCNd8, &ret) - 1;
-    *err &= -(*err < 0); // sets *err to 0 if positive.
+    *err = sscanf(str, "%" SCNd8, &ret) - 1; // sets *err to 0 if positive.
     return ret;
 }
 
 int16_t neat_parse_int16_t(char *str, int *err) {
     int16_t ret;
     *err = sscanf(str, "%" SCNd16, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 int32_t neat_parse_int32_t(char *str, int *err) {
     int32_t ret;
     *err = sscanf(str, "%" SCNd32, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 int64_t neat_parse_int64_t(char *str, int *err) {
     int64_t ret;
     *err = sscanf(str, "%" SCNd64, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 uint8_t neat_parse_uint8_t(char *str, int *err) {
     uint8_t ret;
     *err = sscanf(str, "%" SCNu8, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 uint16_t neat_parse_uint16_t(char *str, int *err) {
     uint16_t ret;
     *err = sscanf(str, "%" SCNu16, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 uint32_t neat_parse_uint32_t(char *str, int *err) {
     uint32_t ret;
     *err = sscanf(str, "%" SCNu32, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
 uint64_t neat_parse_uint64_t(char *str, int *err) {
     uint64_t ret;
     *err = sscanf(str, "%" SCNu64, &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
@@ -1244,7 +1236,6 @@ float neat_parse_float(char *str, int *err)
 {
     float ret;
     *err = sscanf(str, "%g", &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
@@ -1252,7 +1243,6 @@ double neat_parse_double(char *str, int *err)
 {
     double ret;
     *err = sscanf(str, "%lg", &ret) - 1;
-    *err &= -(*err < 0);
     return ret;
 }
 
