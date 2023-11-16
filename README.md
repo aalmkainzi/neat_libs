@@ -218,7 +218,7 @@ char *s2str(S*);
 The string it retuns must be a ```malloc```ed string
 
 #### Parsing
-On top of type-to-string conversion, this library also has parsing from string to your types.
+On top of type-to-string conversion, this library also has parsing from string to other types.
 
 To parse from string:
 ```C
