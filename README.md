@@ -171,7 +171,7 @@ int main()
     free(str);
 }
 ```
-You can also turn an array into a string:
+To turn an array into a string:
 ```C
 int main()
 {
@@ -182,7 +182,7 @@ int main()
 }
 ```
 
-you can call `print` and `fprint`:
+To call `print` and `fprint`:
 ```C
 int main()
 {
@@ -203,9 +203,9 @@ int main()
 }
 ```
 
-These functions work for any stringable type.
+These functions (macros) work for any stringable type.
 
-To add a stringable type you do:
+To add a stringable type:
 ```C
 #define STRINGABLE_TYPES ADD_STRINGABLE(S, s2str)
 
