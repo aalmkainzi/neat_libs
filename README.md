@@ -2,7 +2,6 @@
 # neat_libs
 A collection of header-only C libraries. Aimed at providing a neat API that's simple and easy-to-use
 - [neat_sort](#neat_sort)
-- [neat_iterator](#neat_iterator)
 - [neat_tostr](#neat_tostr)
 
 ## neat_sort
@@ -152,95 +151,6 @@ int main() {
 }
 ```
 
-## neat_iterator
-An easy-to-use library that provides iterators in C.
-
-### API
-To add iterable types (arrays, linkedlist, hashmap, etc.) you do this:
-```C
-#define ITERABLE_TYPES \
-ADD_ITERATOR(linkedlist, ls_begin,  ls_end,  ls_next,  ls_prev), \
-ADD_ITERATOR(hashmap,    hm_begin,  hm_end,  hm_next,  hm_prev), \
-ADD_ITERATOR(vector,     vec_begin, vec_end, vec_next, vec_prev)
-
-#include "neat_iterator.h"
-```
-After which you can do things like:
-```C
-vector vec = ... ;
-
-it_type(vec) i;
-i = it_begin(vec);
-i = it_next(vec, i);
-i = it_prev(vec, i);
-i = it_end(vec);
-```
-
-And you can also use foreach loops:
-```C
-// loops from beginning to end. with iterator name it
-foreach(it, vec) {
-    ...
-}
-
-// loops from end to beginning. with iterator name it
-foreach_r(it, vec) {
-    ...
-}
-
-// loops from beginning to end, skipping n every iteration. with iterator name it
-foreach_skip(it, vec, n) {
-    ...
-}
-
-// loops from end to beginning, skipping n every iteration. with iterator name it
-foreach_skip_r(it, vec, n) {
-    ...
-}
-```
-
-### Iterator example
-```C
-#define ITERABLE_TYPES \
-ADD_ITERATOR(Arr10, arr10_begin, arr10_end, arr10_next, arr10_prev)
-
-#include "neat_iterator.h"
-#include <stdio.h>
-
-typedef struct Arr10
-{
-    int data[10];
-} Arr10;
-
-int *arr10_begin(Arr10 *a)
-{
-    return &a->data[0];
-}
-
-int *arr10_end(Arr10 *a)
-{
-    return &a->data[10];
-}
-
-int *arr10_next(Arr10 *a, int *current)
-{
-    return current + 1;
-}
-
-int *arr10_prev(Arr10 *a, int *current)
-{
-    return current - 1;
-}
-
-int main()
-{
-    Arr10 arr = { .data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } };
-    
-    foreach(it, arr) {
-        printf("%d, ", *it);
-    }
-}
-```
 ## neat_tostr
 A library for converting to string and parsing from string. By default it has parse/to_string support for all the main number types, char, bool, and string.
 Additional types can easily be added
